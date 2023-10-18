@@ -1,0 +1,50 @@
+openapi: 3.0.3
+info:
+  title: mATRIC - OpenAPI 3.0
+  description: |-
+    The OpenAPI specification for mATRIC (Multiple Access Technology Realtime Intelligent Controller) is a standardized document that outlines the RESTful API endpoints, data models, and communication protocols for interfacing with the mATRIC system. This specification provides a detailed description of how external applications or services can interact with mATRIC to manage and control multiple access technologies in real-time, facilitating seamless integration and interoperability with the mATRIC platform. It defines the structure of API requests and responses, enabling developers to build applications that can effectively communicate and leverage the capabilities of mATRIC for optimizing access technology utilization and management.
+    
+    Some useful links:
+    - [The mATRIC repository](https://github.com/)
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://matric.reason.com
+tags:
+  - name: at
+    description: Access to access technologies (ATs)
+paths:
+  /at/data/collection:
+    get:
+      tags:
+        - at
+      summary: Collection of data of ATs
+      description: ATs can provide data. With this endpoint, other services can get a summary of data from all ATs at once.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AT' 
+        '400':
+          description: Invalid status value
+components:
+  schemas:
+    AT:
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
