@@ -1,0 +1,9 @@
+AppVersion: "Matric 1.0.0"
+DATABASE:
+  host: localhost
+  user: root
+  password: secret
+  dbname: mydatabase
+API:
+  endpoint: https://api.example.com
+  timeout: 30
