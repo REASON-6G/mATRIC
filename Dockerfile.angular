@@ -1,0 +1,13 @@
+# Build the Angular app
+FROM node:16 as dashboard
+WORKDIR /app
+COPY src/matric-dash/package.json src/matric-dash/package-lock.json ./
+RUN npm install
+COPY src/matric-dash/ ./
+RUN npm run build
+
+# Serve the Angular app using Nginx
+FROM nginx:alpine
+COPY --from=dashboard /app/dist/matric-dash /usr/share/nginx/html
+EXPOSE 3000
+COPY nginx.conf /etc/nginx/conf.d/default.conf
