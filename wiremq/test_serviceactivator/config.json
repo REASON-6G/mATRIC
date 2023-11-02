@@ -1,0 +1,57 @@
+{
+  "bus0_config": {
+    "name": "Bus 0",
+    "alias": "bus0",
+    "connections": [
+        "127.0.0.1:9011",
+        "127.0.0.1:9012"
+    ],
+    "host": "127.0.0.1",
+    "add_message_id": false,
+    "port": 9010
+  },
+  "bus1_config": {
+    "name": "Bus 1",
+    "alias": "bus1",
+    "connections": [
+        "127.0.0.1:9010",
+        "127.0.0.1:9012"
+    ],
+    "host": "127.0.0.1",
+    "port": 9011,
+    "add_message_id": false
+  },
+  "bus2_config": {
+    "name": "Bus 2",
+    "alias": "bus2",
+    "connections": [
+        "127.0.0.1:9010",
+        "127.0.0.1:9011"
+    ],
+    "host": "127.0.0.1",
+    "port": 9012,
+    "add_message_id": false
+  },
+  "serviceactivator1_config": {
+    "name": "Service Activator 1",
+    "alias": "serviceactivator1",
+    "http_host": "127.0.0.1",
+    "http_port": 8000,
+    "services": {
+      "cpu": ["get_percent", "get_temperatures"],
+      "ram": ["get_percent", "get_total", "get_available", "get_free"]
+    },
+    "host": "127.0.0.1",
+    "port": 11000,
+    "dest_host": "127.0.0.1",
+    "dest_port": 9010,
+    "transaction_store_config": {
+        "db_type": "sqlite",
+        "db_file": "transaction_store.db"
+    },
+    "history_store_config": {
+        "db_type": "sqlite",
+        "db_file": "history_store.db"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "bus1_config": {
+    "name": "Bus 1",
+    "alias": "bus1",
+    "connections": [
+        "127.0.0.1:9002",
+        "127.0.0.1:9003"
+    ],
+    "host": "127.0.0.1",
+    "port": 9001
+  },
+  "bus2_config": {
+    "name": "Bus 2",
+    "alias": "bus2",
+    "connections": [
+        "127.0.0.1:9001",
+        "127.0.0.1:9003"
+    ],
+    "host": "127.0.0.1",
+    "port": 9002
+  },
+  "bus3_config": {
+    "name": "Bus 3",
+    "alias": "bus3",
+    "connections": [
+        "127.0.0.1:9001",
+        "127.0.0.1:9002"
+    ],
+    "host": "127.0.0.1",
+    "port": 9003
+  }
+}
