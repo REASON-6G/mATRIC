@@ -4,8 +4,10 @@ import random
 import string
 from datetime import datetime
 
+# Define the path to your JSON structure file
 json_structure_file = './Nokia.json'
 
+# Function to generate random time strings
 def generate_random_time():
     """Generate a random time string in the format of 'YYYY-MM-DDTHH:MM:SSZ'."""
     year = random.randint(2020, 2023)
@@ -16,20 +18,31 @@ def generate_random_time():
     second = random.randint(0, 59)
     return f"{year:04d}-{month:02d}-{day:02d}T{hour:02d}:{minute:02d}:{second:02d}Z"
 
+# APManager class definition
 class APManager:
     def __init__(self, structure_file_path):
         # Read the JSON structure from the file
         if os.path.exists(structure_file_path):
             with open(structure_file_path, 'r') as file:
-                self.json_structure = json.load(file)
+                self.json_5g_structure = json.load(file)
         else:
             raise FileNotFoundError(f"The structure file {structure_file_path} does not exist.")
-    
-    def getAPdata(self):
-        """Generates a JSON object with random numbers and strings for each value."""
-        # Create a deep copy of the structure to populate it with random data
-        data = json.loads(json.dumps(self.json_structure))
-        
+
+    def getAPdata(self, ap_type):
+        """Generates a JSON object based on the AP type."""
+        if ap_type.lower() == '5g':
+            # Populate the 5G structure with random data
+            data = self.populate_5g_data()
+        elif ap_type.lower() in ['wifi', 'lifi']:
+            # For now, return an empty structure for Wi-Fi and Li-Fi
+            data = {}
+        else:
+            raise ValueError("AP type must be '5g', 'wifi', or 'lifi'.")
+        return data
+
+    def populate_5g_data(self):
+        """Populates the 5G JSON structure with random data."""
+        data = json.loads(json.dumps(self.json_5g_structure))
         # Populate the JSON structure with random data
         data["distName"] += ''.join(random.choices(string.ascii_letters, k=5))
         data["cellId"] = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
@@ -65,5 +78,8 @@ class APManager:
 
 # Example usage
 ap_manager = APManager(json_structure_file)
-ap_data = ap_manager.getAPdata()  # This will now work properly
-ap_manager.pubAPdata(ap_data)
+
+# Get and print data for different AP types
+for ap_type in ['5g', 'wifi', 'lifi']:
+    ap_data = ap_manager.getAPdata(ap_type)
+    ap_manager.pubAPdata(ap_data)
