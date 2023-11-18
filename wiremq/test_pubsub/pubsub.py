@@ -82,3 +82,4 @@ while True:
     ps1.notify(make_event_message_cpu())
     ps1.process()
     time.sleep(1)
+    logger.test(ps1._subscribers)

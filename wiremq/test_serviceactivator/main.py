@@ -40,7 +40,8 @@ while True:
         # correlation id
         if msg["tx_correlation_id"]:
             # Use the service activator to respond to the HTTP server
-            logger.test("bus0 sending response")
+            logger.test("main sending response")
+            logger.test(msg)
             sa1.send(msg)
             sa1.process()
         else:

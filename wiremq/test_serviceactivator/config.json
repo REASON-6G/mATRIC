@@ -7,7 +7,6 @@
         "127.0.0.1:9012"
     ],
     "host": "127.0.0.1",
-    "add_message_id": false,
     "port": 9010
   },
   "bus1_config": {
@@ -18,8 +17,7 @@
         "127.0.0.1:9012"
     ],
     "host": "127.0.0.1",
-    "port": 9011,
-    "add_message_id": false
+    "port": 9011
   },
   "bus2_config": {
     "name": "Bus 2",
@@ -29,8 +27,7 @@
         "127.0.0.1:9011"
     ],
     "host": "127.0.0.1",
-    "port": 9012,
-    "add_message_id": false
+    "port": 9012
   },
   "serviceactivator1_config": {
     "name": "Service Activator 1",
@@ -46,12 +43,16 @@
     "dest_host": "127.0.0.1",
     "dest_port": 9010,
     "transaction_store_config": {
-        "db_type": "sqlite",
+      "db_type": "sqlite",
+      "credentials": {
         "db_file": "transaction_store.db"
+      }
     },
     "history_store_config": {
-        "db_type": "sqlite",
+      "db_type": "sqlite",
+      "credentials": {
         "db_file": "history_store.db"
+      }
     }
   }
 }

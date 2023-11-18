@@ -17,5 +17,5 @@ while True:
     ch1.process()
     msgs = ch1.receive()
     for msg in msgs:
-        logger.error(msg)
+        logger.test(msg)
     time.sleep(0.5)
