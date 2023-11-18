@@ -26,9 +26,9 @@ def add_routing(message: Dict):
 
 sa = serviceactivator.ServiceActivator(sa_config)
 bus = messagebus.MessageBus(bus0_config)
-sa.start()
 
 sa1 = sa.build()
+sa1.start_server()
 bus0 = bus.build()
 while True:
     sa1.process()
