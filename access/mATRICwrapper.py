@@ -6,9 +6,15 @@ import json
 import random
 import string
 from datetime import datetime
+from wiremq.gateway.endpoints import channel
+from typing import (
+    Dict,
+    LiteralString
+)
 
 # Define the path to your JSON structure file
 json_structure_file = './Nokia.json'
+wmq_channel_config_file = './wmq-channel.json'
 
 # Function to generate random time strings for the actualStartTime and actualStopTime
 def generate_random_time():
@@ -28,13 +34,34 @@ def generate_matric_id():
 
 # APManager class definition
 class APManager:
-    def __init__(self, structure_file_path):
+    def __init__(self, structure_file_path, channel_file_path):
+        self._channel = None
         # Read the JSON structure from the file
         if os.path.exists(structure_file_path):
             with open(structure_file_path, 'r') as file:
                 self.json_5g_structure = json.load(file)
         else:
             raise FileNotFoundError(f"The structure file {structure_file_path} does not exist.")
+
+        # Initialise the wiremq channel
+        self._initialise_channel(channel_file_path)
+
+    def _initialise_channel(self, channel_file_path: LiteralString) -> None:
+        """Initialises a wiremq channel.
+
+        This channel is used for outbound communication to another channel, on
+        a P2P basis.
+
+        Parameters
+        ----------
+        channel_file_path: str
+            Directory path to the channel's configuration JSON file.
+        """
+        with open(channel_file_path, "rb") as f:
+            channel_config = json.load(f)
+
+        channel_builder = channel.Channel(channel_config)
+        self._channel = channel_builder.build()
 
     def getAPdata(self, ap_type):
         """Generates a JSON object with a timestamp and matricID based on the AP type."""
@@ -88,12 +115,49 @@ class APManager:
 
         return data
 
-    def pubAPdata(self, json_data):
-    # the wiremq implementation to publish the json should be implemented here 
-        print("AP Data:", json.dumps(json_data, indent=4))
+    def _construct_message(self, payload: Dict) -> Dict:
+        """Builds headers and payload for a wiremq message.
+
+        Parameters
+        ----------
+        payload: Dict
+            The payload data from mATRIC access point.
+
+        Returns
+        -------
+        message: Dict
+            The constructed wiremq message.
+        """
+        message = {
+            "type": "event",
+            "payload": {
+                "data": payload
+            }
+        }
+        return message
+
+    def pubAPdata(self, payload: Dict) -> None:
+        """Publishes the access point data.
+
+        Constructs a wiremq message and uses the wiremq channel to send data to
+        another channel.
+
+        Parameters
+        ----------
+        payload: Dict
+            The payload data from mATRIC access point.
+        """
+        message = self._construct_message(payload)
+        self._channel.send(message)
+        self._channel.process()
+
+    def close(self) -> None:
+        """Closes the wiremq channel."""
+        self._channel.close()
+
 
 # Example usage
-ap_manager = APManager(json_structure_file)
+ap_manager = APManager(json_structure_file, wmq_channel_config_file)
 
 # Get and print data for a 5G access point
 ap_data_5g = ap_manager.getAPdata('5g')
