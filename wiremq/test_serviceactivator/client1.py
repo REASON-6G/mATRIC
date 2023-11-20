@@ -9,6 +9,10 @@ resp = requests.get(
         'User-Agent': "wiremq-demo-application",
         'Accept': "application/json"
     },
+    params={
+        "data": "hello",
+        "aux": "world"
+    },
     timeout=15
 )
 

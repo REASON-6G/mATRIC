@@ -30,6 +30,7 @@ bus = messagebus.MessageBus(bus0_config)
 sa1 = sa.build()
 sa1.start_server()
 bus0 = bus.build()
+
 while True:
     sa1.process()
     bus0.process()
@@ -52,3 +53,6 @@ while True:
             msg = add_routing(msg)
             bus0.send(msg)
     time.sleep(0.05)
+
+bus0.close()
+sa1.close()

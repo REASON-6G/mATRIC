@@ -51,6 +51,7 @@ while True:
     msgs = bus1.receive()
     for msg in msgs:
         logger.test(f"received request: {msg['payload']['command']}")
+        logger.test(msg)
         response = compose_response(msg)
         bus1.send(response)
     time.sleep(0.05)
