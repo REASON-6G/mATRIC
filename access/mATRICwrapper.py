@@ -54,9 +54,9 @@ class APManager:
 
         Parameters
         ----------
-        structure_file_path: str
+        structure_path: str
             Directory path to the payload structure JSON file.
-        channel_file_path: str
+        channel_path: str
             Directory path to the wiremq channel configuration JSON file.
         """
         self._channel = None
