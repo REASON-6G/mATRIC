@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+    volumes:
+      - .:/app
+    ports:
+      - 5000:5000
+    links:
+      - db
+    depends_on:
+      - db
+    env_file:
+      - .env
+
+  db:
+    image: postgres:13.2-alpine
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - .dbdata:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:

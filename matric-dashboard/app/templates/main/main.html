@@ -1,0 +1,23 @@
+
+{% extends "base.html" %}
+{% import 'bootstrap5/form.html' as wtf %}
+
+{% block scripts %}
+	{{ super() }}
+	{{render_static('js', 'js/experiment.js')}}
+	<script>setTab('navbar-manageExperiment')</script>
+
+{% endblock %}
+
+{% block app_content %}
+<div class="opaque" hidden></div>
+<div class="loader" hidden></div>
+<div class="col-md-12" style="padding-right: 25px">
+    <div style="text-align: center">
+        <h2>REASON PROJECT</h2>
+    </div>
+    </br>
+
+</div>
+
+{% endblock %}

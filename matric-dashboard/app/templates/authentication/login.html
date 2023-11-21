@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% from 'bootstrap5/form.html' import render_form %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>setTab('navbar-login')</script>
+{% endblock %}
+
+{% block app_content %}
+<div class="row">
+    <div class="col-sm-4 offset-sm-2">
+        <h1>Sign In</h1>
+        <div class="row">
+            <div class="col-md-8">
+				{{ form.hidden_tag() }}
+                {{ render_form(form) }}
+                                <span style="font-size:15px;">No account yet? <a href="{{ url_for('authentication.register') }}">Register here</a></span>
+                
+            </div>
+        </div>
+        <br>
+    </div>
+    <div class="col-sm-4" style="text-align: center; padding-top: 20px">
+        <div style="margin:0 auto;">
+            <img src="../static/images/5G-VICTORI_Logo_1000x384.png" class="img-fluid img-thumbnail" style="border: 0 none;" alt="Responsive image" alt="5G VIOS">
+            <br>
+            <h2>{{ description }}</h2>
+        </div>
+    </div>
+</div>
+{% endblock %}
