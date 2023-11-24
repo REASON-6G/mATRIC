@@ -1,5 +1,6 @@
 {
   "channel1_config": {
+    "type": "channel",
     "name": "Channel 1",
     "alias": "channel1",
     "host": "127.0.0.1",
@@ -9,6 +10,7 @@
     "console_log_level": 20
   },
   "channel2_config": {
+    "type": "channel",
     "name": "Channel 2",
     "alias": "channel2",
     "host": "127.0.0.1",
@@ -17,6 +19,7 @@
     "dest_port": 8802
   },
   "pubsub1_config": {
+    "type": "pubsubchannel",
     "name": "Pubsub 1",
     "alias": "pubsub1",
     "topics": [

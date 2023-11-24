@@ -1,7 +1,7 @@
 import logging
 import time
 import json
-from wiremq.gateway.endpoints import channel
+from wiremq.gateway.endpoints import endpointfactory
 
 
 """
@@ -17,11 +17,8 @@ logger = logging.getLogger("channel2_logger")
 with open("config.json", "r") as f:
     config = json.load(f)["channel2_config"]
 
-ch = channel.Channel(config)
-
-ch2 = ch.build()
+ch2 = endpointfactory.EndpointFactory().build(config)
 while True:
-    ch2.process()
     msgs = ch2.receive()
     for msg in msgs:
         logger.test(msg)

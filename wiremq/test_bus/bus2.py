@@ -1,14 +1,12 @@
 import json
 import logging
 import time
-from wiremq.gateway.endpoints import messagebus
+from wiremq.gateway.endpoints import endpointfactory
 
 logger = logging.getLogger("bus2_logger")
 
 with open("config.json", "r") as f:
     config = json.load(f)["bus2_config"]
-
-bus = messagebus.MessageBus(config)
 
 dummy_msg = {
     "type": "event",
@@ -20,9 +18,8 @@ dummy_msg = {
     }
 }
 
-bus2 = bus.build()
+bus2 = endpointfactory.EndpointFactory().build(config)
 while True:
-    bus2.process()
     msgs = bus2.receive()
     for msg in msgs:
         logger.test(f"RECEIVED: {msg}")

@@ -1,5 +1,6 @@
 {
   "channel1_config": {
+    "type": "channel",
     "name": "Channel 1",
     "alias": "channel1",
     "host": "127.0.0.1",
@@ -8,6 +9,7 @@
     "dest_port": 8900
   },
   "channel2_config": {
+    "type": "channel",
     "name": "Channel 2",
     "alias": "channel2",
     "host": "127.0.0.1",
@@ -16,6 +18,7 @@
     "dest_port": 8900
   },
   "router1_config": {
+    "type": "router",
     "name": "Router 1",
     "alias": "router1",
     "routing_table": {

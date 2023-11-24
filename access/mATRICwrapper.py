@@ -10,7 +10,7 @@ from typing import (
     Dict,
     LiteralString
 )
-from wiremq.gateway.endpoints import channel
+from wiremq.gateway.endpoints import endpointfactory
 
 # Define the path to the JSON structure file and channel configuration file.
 json_structure_file = './Nokia.json'
@@ -96,8 +96,7 @@ class APManager:
         with open(channel_file_path, "rb") as f:
             channel_config = json.load(f)
 
-        channel_builder = channel.Channel(channel_config)
-        self._channel = channel_builder.build()
+        self._channel = endpointfactory.EndpointFactory().build(channel_config)
 
     def getAPdata(self, ap_type: LiteralString) -> Dict:
         """Generates a JSON object with a timestamp and matricID based on the
@@ -209,7 +208,6 @@ class APManager:
         """
         message = self._construct_message(payload)
         self._channel.send(message)
-        self._channel.process()
 
     def close(self) -> None:
         """Closes the wiremq channel."""

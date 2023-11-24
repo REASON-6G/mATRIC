@@ -5,16 +5,12 @@ import logging
 import time
 import psutil
 from typing import Dict
-from wiremq.gateway.endpoints import messagebus
+from wiremq.gateway.endpoints import endpointfactory
 
 logger = logging.getLogger("bus1_logger")
 
 with open("config.json", "r") as f:
     config = json.load(f)["bus1_config"]
-
-
-bus = messagebus.MessageBus(config)
-
 
 def get_cpu_data(command: str):
     if command == "get_percent":
@@ -40,9 +36,8 @@ def compose_response(message: Dict):
     }
 
 
-bus1 = bus.build()
+bus1 = endpointfactory.EndpointFactory().build(config)
 while True:
-    bus1.process()
     msgs = bus1.receive()
     for msg in msgs:
         logger.test(f"received request: {msg['payload']['command']}")

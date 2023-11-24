@@ -2,10 +2,7 @@ import logging
 import time
 import json
 from typing import Dict
-from wiremq.gateway.endpoints import (
-    serviceactivator,
-    messagebus
-)
+from wiremq.gateway.endpoints import endpointfactory
 
 logger = logging.getLogger("serviceactivator1_logger")
 
@@ -24,16 +21,13 @@ def add_routing(message: Dict):
     return message
 
 
-sa = serviceactivator.ServiceActivator(sa_config)
-bus = messagebus.MessageBus(bus0_config)
+sa1 = endpointfactory.EndpointFactory().build(sa_config)
+bus0 = endpointfactory.EndpointFactory().build(bus0_config)
 
-sa1 = sa.build()
 sa1.start_server()
-bus0 = bus.build()
 
 while True:
-    sa1.process()
-    bus0.process()
+    sa1.receive()
     msgs = bus0.receive()
     for msg in msgs:
         logger.test(f"bus received: {msg}")

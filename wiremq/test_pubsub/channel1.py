@@ -1,7 +1,7 @@
 import logging
 import time
 import json
-from wiremq.gateway.endpoints import channel
+from wiremq.gateway.endpoints import endpointfactory
 
 """
 Channel 1 subscribes to the pubsub channel by sending a subscription message.
@@ -32,12 +32,9 @@ subscription_message = {
     }
 }
 
-ch = channel.Channel(config)
-
-ch1 = ch.build()
+ch1 = endpointfactory.EndpointFactory().build(config)
 ch1.send(subscription_message)
 while True:
-    ch1.process()
     msgs = ch1.receive()
     for msg in msgs:
         logger.test(msg)

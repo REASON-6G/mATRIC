@@ -1,9 +1,10 @@
 {
+  "type": "channel",
   "name": "Channel 1",
   "alias": "channel1",
   "host": "127.0.0.1",
   "port": 8001,
   "dest_host": "127.0.0.1",
   "dest_port": 8002,
-  "console_log_level": 1
+  "console_level": 1
 }

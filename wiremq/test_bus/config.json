@@ -1,5 +1,6 @@
 {
   "bus1_config": {
+    "type": "bus",
     "name": "Bus 1",
     "alias": "bus1",
     "connections": [
@@ -10,6 +11,7 @@
     "port": 9001
   },
   "bus2_config": {
+    "type": "bus",
     "name": "Bus 2",
     "alias": "bus2",
     "connections": [
@@ -20,6 +22,7 @@
     "port": 9002
   },
   "bus3_config": {
+    "type": "bus",
     "name": "Bus 3",
     "alias": "bus3",
     "connections": [

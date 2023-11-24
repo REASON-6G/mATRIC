@@ -1,5 +1,6 @@
 {
     "bus0_config": {
+        "type": "bus",
         "name": "Bus 0",
         "alias": "bus0",
         "connections": ["127.0.0.1:9011", "127.0.0.1:9012"],
@@ -8,6 +9,7 @@
         "port": 9010
     },
     "bus1_config": {
+        "type": "bus",
         "name": "Bus 1",
         "alias": "bus1",
         "connections": ["127.0.0.1:9010", "127.0.0.1:9012"],
@@ -16,6 +18,7 @@
         "add_message_id": false
     },
     "bus2_config": {
+        "type": "bus",
         "name": "Bus 2",
         "alias": "bus2",
         "connections": ["127.0.0.1:9010", "127.0.0.1:9011"],
@@ -24,6 +27,7 @@
         "add_message_id": false
     },
     "serviceactivator1_config": {
+        "type": "serviceactivator",
         "name": "Service Activator 1",
         "alias": "serviceactivator1",
         "http_host": "127.0.0.1",

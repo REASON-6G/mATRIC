@@ -2,7 +2,7 @@ import logging
 import time
 import psutil
 import json
-from wiremq.gateway.endpoints import pubsubchannel
+from wiremq.gateway.endpoints import endpointfactory
 
 """
 Pubsub 1 sends messages to 2 subscribers about CPU and RAM monitoring data.
@@ -57,8 +57,7 @@ def make_event_message_ram():
     }
     return message
 
-ps = pubsubchannel.PubSubChannel(config)
-ps1 = ps.build()
+ps1 = endpointfactory.EndpointFactory().build(config)
 
 # Pre-subscribe Channel 2
 subscription_config = {
@@ -76,10 +75,8 @@ ps1.add_subscriber(subscription_config)
 while True:
     logger.test("SENDING RAM NOTIFICATION")
     ps1.notify(make_event_message_ram())
-    ps1.process()
     time.sleep(1)
     logger.test("SENDING CPU NOTIFICATION")
     ps1.notify(make_event_message_cpu())
-    ps1.process()
     time.sleep(1)
     logger.test(ps1._subscribers)
