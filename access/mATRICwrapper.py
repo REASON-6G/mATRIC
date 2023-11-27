@@ -45,11 +45,13 @@ def generate_matric_id() -> Dict:
 
 # APManager class definition
 class APManager:
-    def __init__(self, structure_5g_file_path, structure_wifi_file_path):
+    def __init__(self, structure_5g_file_path, structure_wifi_file_path, channel_config_file):
         self.structure_5g_file_path = structure_5g_file_path
         self.structure_wifi_file_path = structure_wifi_file_path
+        self.channel_config_file = channel_config_file
         self.json_5g_structure = None
         self.json_wifi_structure = None
+        self._initialise_channel(self.channel_config_file)
 
     def _load_structure(self, file_path):
         if os.path.exists(file_path):
@@ -216,7 +218,7 @@ class APManager:
         self._channel.close()
 
 
-ap_manager = APManager(json_structure_5g_file, json_structure_wifi_file,wmq_channel_config_file)
+ap_manager = APManager(json_structure_5g_file,json_structure_wifi_file,wmq_channel_config_file)
 
 # Get and print data for a 5G access point
 ap_data_5g = ap_manager.getAPdata('5g')
