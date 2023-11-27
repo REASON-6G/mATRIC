@@ -216,7 +216,7 @@ class APManager:
         self._channel.close()
 
 
-ap_manager = APManager(json_structure_5g_file, json_structure_wifi_file)
+ap_manager = APManager(json_structure_5g_file, json_structure_wifi_file,wmq_channel_config_file)
 
 # Get and print data for a 5G access point
 ap_data_5g = ap_manager.getAPdata('5g')
