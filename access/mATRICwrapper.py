@@ -1,6 +1,7 @@
 # this code will generate 5G Nokia CLI data in json format
 # the pubAPdata function should publish to wiremq the json object
 # we need to implement the same generation for wifi and lifi
+# long term we need to create v2 where nokia data is taken from actual CLI
 import os
 import json
 import random
