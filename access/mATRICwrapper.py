@@ -211,7 +211,7 @@ class APManager:
             The payload data from mATRIC access point.
         """
         message = self._construct_message(payload)
-        self._channel.send(message)
+        #self._channel.send(message)
 
     def close(self) -> None:
         """Closes the wiremq channel."""
@@ -227,5 +227,6 @@ ap_manager.pubAPdata(ap_data_5g)
 # Get and print data for a WiFi access point
 ap_data_wifi = ap_manager.getAPdata('wifi')
 ap_manager.pubAPdata(ap_data_wifi)
+ap_manager.close()
 # The Wi-Fi and Li-Fi data generation can be implemented similarly when
 # their structures are defined.
