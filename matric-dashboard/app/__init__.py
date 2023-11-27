@@ -27,6 +27,10 @@ def create_app(config_class=Config):
         app.register_blueprint(bp_main)
         from app.dashboard import bp as bp_dashboard
         app.register_blueprint(bp_dashboard)
+        from app.profile import bp as bp_profile
+        app.register_blueprint(bp_profile)
+        from app.manage_users import bp as bp_manageusers
+        app.register_blueprint(bp_manageusers)
 
         # process dash apps
         # dash app 1

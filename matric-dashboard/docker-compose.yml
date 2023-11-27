@@ -12,6 +12,7 @@ services:
       - db
     depends_on:
       - db
+      - grafana
     env_file:
       - .env
 
@@ -24,6 +25,22 @@ services:
       - .dbdata:/var/lib/postgresql/data/
     ports:
       - "5432:5432"
+      
+  grafana:
+    image: grafana/grafana-oss
+    container_name: grafana
+    restart: unless-stopped
+    # if you are running as root then set it to 0
+    # else find the right id with the id -u command
+    env_file:
+      - .env
+    user: '0'
+    ports:
+      - '3000:3000'
+    # adding the mount volume point which we create earlier
+    volumes:
+      - .grafana_data:/var/lib/grafana
+      - ./grafana.ini:/etc/grafana/grafana.ini
 
 volumes:
   postgres_data:

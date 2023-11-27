@@ -41,7 +41,7 @@
         <div class="col px-3 px-md-0  py-3">
             <div class="d-flex">
                 <!-- toggler -->
-             {% if not current_user.is_anonymous %}
+             {% if current_user.is_authenticated %}
                 <button  href="#" data-bs-toggle="collapse" data-bs-target=".collapse" type="button" class="navbar-toggler d-sm d-md-none me-auto">
                       <i class="bi bi-list bi-lg"></i>
                 </button>
@@ -50,7 +50,7 @@
                 <a href="{{ url_for('main.index') }}" class="navbar-brand ms-3"  href="#">
                    <img src=" {{ url_for('static', filename='images/5GVIOS_thumb.png') }} " alt="5G VIOS"></a>
                 </div>
-                  {% if  not current_user.is_anonymous %}
+                  {% if current_user.is_authenticated %}
 				      <ul class="navbar-nav px-3 ms-auto">
 				        <li class="nav-item dropdown text-nowrap">
                     	<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -58,7 +58,6 @@
                     		{{ current_user.username | capitalize }}  <b class="caret"></b>
                     	</a>    
 							   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							       <li><a class="dropdown-item" id="navbar-profile" href="{{ url_for('profile.profile') }}">Profile/Settings</a></li>
 			                       <li><a class="dropdown-item" href="{{ url_for('authentication.logout') }}">Logout</a></li>
 							    </ul>
 					 		 </li>
@@ -77,7 +76,7 @@
             <!-- fixed sidebar -->
             <div class="navbar-light bg-light  h-100 w-sidebar">
                 <ul class="nav nav-pills flex-column flex-nowrap text-truncate">
-                        {% if not current_user.is_anonymous %}
+                        {% if current_user.is_authenticated %}
 			            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
 			              <span>Monitoring</span>
 			            </h6>                   
@@ -86,8 +85,9 @@
 
 	                    {% if current_user.permissionlevel == 2 %}
 						<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-						      <span>Admin Tools</span>
-						</h6>                     
+						      <span>Tools</span>
+						</h6>       
+							<li><a class="dropdown-item" id="navbar-profile" href="{{ url_for('profile.profile') }}">Profile/Settings</a></li>
 					       	<li class="nav-item"><a class="nav-link vios_menu" id="navbar-manageUsers" href="{{ url_for('manage_users.manageusers') }}">Manage Users</a></li>
 	                    {% endif %}       
 		         
@@ -95,7 +95,7 @@
                 </ul>
             </div>
         </div>
-        	{% endblock %}
+{% endblock %}
         
         <div class="col p-3 mt-5">
         {% block content %}

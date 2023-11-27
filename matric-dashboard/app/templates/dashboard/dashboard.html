@@ -2,12 +2,16 @@
 {% block content %}
     {{ super() }}
     {% block app_content %}
+		{% if current_user.is_authenticated %}
          <div class="embed-responsive" style="min-height: {% if min_height is defined %}{{ min_height }}{% else %}200{% endif %}px">
-             <iframe
-                     src={{ dash_url }}
-                     style="overflow-x: hidden; overflow-y: visible; overflow-x: hidden; position: absolute; width: 95%; height: 100%; background: transparent"
-            ></iframe>
+			
+			<iframe
+			src="http://localhost:3000/public-dashboards/18806bd1f2c54cb1bad2917fffbab572"
+			style="overflow-x: hidden; overflow-y: hidden; width: 100%; height: 100%; background: transparent"
+			></iframe>
+			
         </div>
+	     {% endif %}
     {% endblock %}
 {% endblock %}
 

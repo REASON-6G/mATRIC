@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% import 'bootstrap/form.html' as wtf %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/browseFiles.css') }}">
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="{{url_for('static', filename='js/user_jquery.js')}}"></script>
+    <script>setTab('navbar-profile')</script>
+    <script>
+    $('#profilelist a').on('click', function (e) {
+    	  e.preventDefault()
+    	  $(this).tab('show')
+    	})    
+    </script>
+{% endblock %}
+
+
+{% block app_content %}
+<div style="text-align: center">
+    <h2>USER PROFILE</h2>
+</div>
+<br/>
+
+                                <ul style="margin-bottom:1.5em;" id="profilelist" class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="nav-item">
+                                        <a class="nav-link active" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true">Info</a>
+                                    </li>
+                                    <li role="presentation" class="nav-item">
+                                        <a class="nav-link" id="changepassword-tab" data-toggle="tab" href="#changepassword" role="tab" aria-controls=""changepassword"" aria-selected="false">Change Password</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="info" role="tabpanel" aria-labelledby="info-tab">
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">Username</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                              {{ username | capitalize}}
+                                            </div>
+                                        </div>
+                                        <hr />
+
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">email</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                            	{{ email }}
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        
+                                        
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">Permission level</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                            	{{ "User" if permissionlevel ==0 else "Organisation" if permissionlevel == 1 else "Administrator" }}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="tab-pane fade" id="changepassword" role="tabpanel" aria-labelledby="changepassword-tab">
+											<div class="col-sm-6">
+											<p >Use the form below to change your password.</p>
+											<form method="post" id="passwordForm">
+											    {{form.hidden_tag()}}
+												<div class="form-group row">
+										              {{ form.oldpassword(size=25, placeholder = "Previous password") }}
+										        </div>
+												<div class="form-group row">
+										              {{ form.password(size=25, placeholder = "New password") }}
+										        </div>	
+												<div class="form-group row">
+										              {{ form.password2(size=25, placeholder = "Repeat new password") }}
+										        </div>	
+												        {{form.submit(class="btn btn-primary m-5")}}
+												</div>
+											</form>
+											</div><!--/col-sm-6-->
+                                    </div>
+ 
+        </div>
+<div class="col-sm-2"></div>
+{% endblock %}
