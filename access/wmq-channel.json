@@ -3,8 +3,8 @@
   "name": "Channel 1",
   "alias": "channel1",
   "host": "127.0.0.1",
-  "port": 8001,
+  "port": 8051,
   "dest_host": "127.0.0.1",
-  "dest_port": 8002,
+  "dest_port": 8052,
   "console_level": 1
 }

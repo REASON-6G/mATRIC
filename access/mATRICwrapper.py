@@ -211,7 +211,7 @@ class APManager:
             The payload data from mATRIC access point.
         """
         message = self._construct_message(payload)
-        #self._channel.send(message)
+        self._channel.send(message)
 
     def close(self) -> None:
         """Closes the wiremq channel."""
