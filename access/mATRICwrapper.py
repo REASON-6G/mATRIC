@@ -3,20 +3,18 @@
 # we need to implement the same generation for wifi and lifi
 import os
 import json
+from typing import Dict
 import random
 import string
 from datetime import datetime
-from typing import (
-    Dict,
-    LiteralString
-)
 from wiremq.gateway.endpoints import endpointfactory
 
 # Define the path to the JSON structure file and channel configuration file.
-json_structure_file = './Nokia.json'
+json_structure_5g_file = './Nokia.json'
+json_structure_wifi_file = './wifi.json'
 wmq_channel_config_file = './wmq-channel.json'
 
-def generate_random_time() -> LiteralString:
+def generate_random_time() -> Dict:
     """Generates a random time string with the format YYYY-MM-DDTHH:MM:SSZ
 
     Returns
@@ -34,7 +32,7 @@ def generate_random_time() -> LiteralString:
            f"{second:02d}Z"
 
 # Function to generate a unique identifier for matricID
-def generate_matric_id() -> LiteralString:
+def generate_matric_id() -> Dict:
     """Generates a random matricID string.
 
     Returns
@@ -47,24 +45,37 @@ def generate_matric_id() -> LiteralString:
 
 # APManager class definition
 class APManager:
-    def __init__(self,
-                 structure_path: LiteralString,
-                 channel_path: LiteralString):
-        """Access point manager.
+    def __init__(self, structure_5g_file_path, structure_wifi_file_path):
+        self.structure_5g_file_path = structure_5g_file_path
+        self.structure_wifi_file_path = structure_wifi_file_path
+        self.json_5g_structure = None
+        self.json_wifi_structure = None
 
-        Parameters
-        ----------
-        structure_path: str
-            Directory path to the payload structure JSON file.
-        channel_path: str
-            Directory path to the wiremq channel configuration JSON file.
-        """
-        self._channel = None
-        self._json_5G_structure = None
-        self._initialise_structure(structure_path)
-        self._initialise_channel(channel_path)
+    def _load_structure(self, file_path):
+        if os.path.exists(file_path):
+            with open(file_path, 'r') as file:
+                return json.load(file)
+        else:
+            raise FileNotFoundError(f"The structure file {file_path} does not exist.")
 
-    def _initialise_structure(self, structure_path: LiteralString) -> None:
+    def getAPdata(self, ap_type):
+        if ap_type.lower() == '5g':
+            if not self.json_5g_structure:
+                self.json_5g_structure = self._load_structure(self.structure_5g_file_path)
+            data = self.populate_5g_data()
+        elif ap_type.lower() == 'wifi':
+            if not self.json_wifi_structure:
+                self.json_wifi_structure = self._load_structure(self.structure_wifi_file_path)
+            data = self.populate_wifi_data()
+        else:
+            raise ValueError("AP type must be '5g' or 'wifi'.")
+
+        data['timestamp'] = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+        data['matricID'] = generate_matric_id()
+        
+        return data
+
+    def _initialise_structure(self, structure_path: Dict) -> None:
         """Initialises structure for JSON payloads, reading the file from the
         provided path.
 
@@ -82,7 +93,7 @@ class APManager:
                                     f"does not exist.")
 
 
-    def _initialise_channel(self, channel_file_path: LiteralString) -> None:
+    def _initialise_channel(self, channel_file_path: Dict) -> None:
         """Initialises a wiremq channel.
 
         This channel is used for outbound communication to another channel, on
@@ -97,35 +108,6 @@ class APManager:
             channel_config = json.load(f)
 
         self._channel = endpointfactory.EndpointFactory().build(channel_config)
-
-    def getAPdata(self, ap_type: LiteralString) -> Dict:
-        """Generates a JSON object with a timestamp and matricID based on the
-        AP type.
-
-        Parameters
-        ----------
-        ap_type: str
-            Flag denoting the access point type (one of "5g", "wifi", "lifi").
-
-        Returns
-        -------
-        data: Dict
-            Assembled  access point data dictionary.
-        """
-        if ap_type.lower() == '5g':
-            # Populate the 5G structure with random data
-            data = self.populate_5g_data()
-        elif ap_type.lower() in ['wifi', 'lifi']:
-            # For now, return an empty structure for Wi-Fi and Li-Fi
-            data = {}
-        else:
-            raise ValueError("AP type must be '5g', 'wifi', or 'lifi'.")
-        
-        # Add the current timestamp and matricID to the data
-        data['timestamp'] = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        data['matricID'] = generate_matric_id()
-        
-        return data
 
     def populate_5g_data(self) -> Dict:
         """Populates the 5G JSON structure with random data.
@@ -174,6 +156,26 @@ class APManager:
 
         return data
 
+    def populate_wifi_data(self) -> Dict:
+        data = json.loads(json.dumps(self.json_wifi_structure))
+        
+        # Populate WiFi structure with random data
+        data["SSID"] += ''.join(random.choices(string.ascii_letters, k=5))
+        data["MACaddr"] = ':'.join(['{:02x}'.format(random.randint(0, 255)) for _ in range(6)])
+        data["results"]["Signal"] = random.randint(-100, 0)  # Signal strength in dBm
+        data["results"]["HighSignal"] = random.randint(-100, 0)  # Highest recorded signal strength in dBm
+        data["results"]["RSSI"] = random.randint(-100, 0)  # Received Signal Strength Indicator
+        data["results"]["HighRSSI"] = random.randint(-100, 0)  # Highest recorded RSSI
+        data["results"]["Channel"] = random.randint(1, 11)  # WiFi channel
+        data["results"]["Location"]["LAT"] = random.uniform(-90, 90)  # Latitude
+        data["results"]["Location"]["LON"] = random.uniform(-180, 180)  # Longitude
+        data["results"]["Authentication"] = random.choice(["WPA", "WPA2", "WEP", "None"])
+        data["results"]["Encryption"] = random.choice(["AES", "TKIP", "WEP", "None"])
+        data["results"]["Manufacturer"] = ''.join(random.choices(string.ascii_letters, k=10))
+
+        return data
+
+
     def _construct_message(self, payload: Dict) -> Dict:
         """Builds headers and payload for a wiremq message.
 
@@ -214,12 +216,14 @@ class APManager:
         self._channel.close()
 
 
-# Example usage
-ap_manager = APManager(json_structure_file, wmq_channel_config_file)
+ap_manager = APManager(json_structure_5g_file, json_structure_wifi_file,wmq_channel_config_file)
 
 # Get and print data for a 5G access point
 ap_data_5g = ap_manager.getAPdata('5g')
 ap_manager.pubAPdata(ap_data_5g)
 
+# Get and print data for a WiFi access point
+ap_data_wifi = ap_manager.getAPdata('wifi')
+ap_manager.pubAPdata(ap_data_wifi)
 # The Wi-Fi and Li-Fi data generation can be implemented similarly when
 # their structures are defined.
