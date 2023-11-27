@@ -5,7 +5,7 @@ sphinx
 pytest-datadir
 pymongo
 pymysql
-mariadb>=1.1.4
+# mariadb>=1.1.4
 pysodium
 structlog
 termcolor
