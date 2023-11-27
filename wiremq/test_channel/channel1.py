@@ -2,11 +2,16 @@ import logging
 import time
 import json
 from wiremq.gateway.endpoints import endpointfactory
-from pymongo import MongoClient
+from influxdb_client import InfluxDBClient, Point, WritePrecision
+from influxdb_client.client.write_api import SYNCHRONOUS
 
-# MongoDB connection setup
-client = MongoClient('localhost', 27017)  # Replace with your MongoDB server details
-db = client['your_database_name']  # Replace with your database name
+# InfluxDB connection setup
+influxdb_url = 'http://localhost:8086'  # Replace with your InfluxDB server URL
+token = 'your-token'  # Replace with your InfluxDB token
+org = 'your-org'  # Replace with your organization name
+bucket = 'your-bucket'  # Replace with your bucket name
+client = InfluxDBClient(url=influxdb_url, token=token, org=org)
+write_api = client.write_api(write_options=SYNCHRONOUS)
 
 logger = logging.getLogger("channel1_logger")
 
@@ -18,16 +23,18 @@ ch1 = endpointfactory.EndpointFactory().build(config)
 while True:
     msgs = ch1.receive()
     for msg in msgs:
-        logger.info(msg)  # Changed from logger.test to logger.info
+        logger.info(msg)
 
-        # Parse the message and extract matricID
+        # Parse the message
         msg_data = json.loads(msg)
-        matricID = msg_data.get('matricID', 'default_collection')  # Use a default collection if matricID is missing
 
-        # Get or create the collection with the name of matricID
-        collection = db[matricID]
-
-        # Insert the message into the collection
-        collection.insert_one(msg_data)
+        # Create a Point with the data
+        point = Point("measurement_name").tag("matricID", msg_data.get('matricID', 'default')).field("data", msg_data)
+        
+        # Write the point to InfluxDB
+        write_api.write(bucket=bucket, org=org, record=point)
 
     time.sleep(0.5)
+
+# Close the InfluxDB client
+client.close()
