@@ -50,6 +50,11 @@ def get_access_technologies():
     technologies = list(db.access_technologies.find({}, {"_id": 0}))  # Excluding _id field for simplicity
     return jsonify(technologies)
 
+@app.route('/return', methods=['GET'])
+def get_access_technologies():
+    technologies = list(db.access_technologies.find({}, {"_id": 0}))  # Excluding _id field for simplicity
+    return jsonify(technologies)
+
 @app.route('/register_technology', methods=['POST'])
 def register_technology():
     try:
