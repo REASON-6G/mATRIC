@@ -7,12 +7,16 @@ from typing import Dict
 import random
 import string
 from datetime import datetime
+import time
+import logging
+from pathlib import Path
 from wiremq.gateway.endpoints import endpointfactory
 
 # Define the path to the JSON structure file and channel configuration file.
-json_structure_5g_file = './Nokia.json'
-json_structure_wifi_file = './wifi.json'
-wmq_channel_config_file = './wmq-channel.json'
+path = Path(__file__).parent
+json_structure_5g_file = os.path.join(path, "Nokia.json")
+json_structure_wifi_file = os.path.join(path, "wifi.json")
+wmq_channel_config_file = os.path.join(path, "wmq-channel.json")
 
 def generate_random_time() -> Dict:
     """Generates a random time string with the format YYYY-MM-DDTHH:MM:SSZ
@@ -176,7 +180,6 @@ class APManager:
 
         return data
 
-
     def _construct_message(self, payload: Dict) -> Dict:
         """Builds headers and payload for a wiremq message.
 
@@ -217,15 +220,24 @@ class APManager:
         self._channel.close()
 
 
-ap_manager = APManager(json_structure_5g_file,json_structure_wifi_file,wmq_channel_config_file)
+ap_manager = APManager(
+    json_structure_5g_file,
+    json_structure_wifi_file,
+    wmq_channel_config_file
+)
 
-# Get and print data for a 5G access point
-ap_data_5g = ap_manager.getAPdata('5g')
-ap_manager.pubAPdata(ap_data_5g)
+
+while True:
+    # Get and print data for a 5G access point
+    ap_data_5g = ap_manager.getAPdata('5g')
+    ap_manager.pubAPdata(ap_data_5g)
+    time.sleep(5)
+
+
 
 # Get and print data for a WiFi access point
-ap_data_wifi = ap_manager.getAPdata('wifi')
-ap_manager.pubAPdata(ap_data_wifi)
-ap_manager.close()
+# ap_data_wifi = ap_manager.getAPdata('wifi')
+# ap_manager.pubAPdata(ap_data_wifi)
+# ap_manager.close()
 # The Wi-Fi and Li-Fi data generation can be implemented similarly when
 # their structures are defined.
