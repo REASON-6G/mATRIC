@@ -224,8 +224,8 @@ ap_data_5g = ap_manager.getAPdata('5g')
 ap_manager.pubAPdata(ap_data_5g)
 
 # Get and print data for a WiFi access point
-ap_data_wifi = ap_manager.getAPdata('wifi')
-ap_manager.pubAPdata(ap_data_wifi)
+# ap_data_wifi = ap_manager.getAPdata('wifi')
+# ap_manager.pubAPdata(ap_data_wifi)
 ap_manager.close()
 # The Wi-Fi and Li-Fi data generation can be implemented similarly when
 # their structures are defined.
