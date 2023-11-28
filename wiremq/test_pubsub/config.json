@@ -1,0 +1,34 @@
+{
+  "channel1_config": {
+    "type": "channel",
+    "name": "Channel 1",
+    "alias": "channel1",
+    "host": "127.0.0.1",
+    "port": 8803,
+    "dest_host": "127.0.0.1",
+    "dest_port": 8802,
+    "console_log_level": 20
+  },
+  "channel2_config": {
+    "type": "channel",
+    "name": "Channel 2",
+    "alias": "channel2",
+    "host": "127.0.0.1",
+    "port": 8804,
+    "dest_host": "127.0.0.1",
+    "dest_port": 8802
+  },
+  "pubsub1_config": {
+    "type": "pubsubchannel",
+    "name": "Pubsub 1",
+    "alias": "pubsub1",
+    "topics": [
+        "cpu",
+        "ram"
+    ],
+    "host": "127.0.0.1",
+    "port": 8801,
+    "command_host": "127.0.0.1",
+    "command_port": 8802
+  }
+}

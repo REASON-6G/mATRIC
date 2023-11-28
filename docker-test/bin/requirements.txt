@@ -1,0 +1,20 @@
+pytest
+pytest-socket
+schema
+sphinx
+pytest-datadir
+pymongo
+pymysql
+# mariadb>=1.1.4
+pysodium
+structlog
+termcolor
+pyOpenSSL
+PyYAML
+setuptools >= 61.0.0
+build
+colorama
+uvicorn
+
+# used in example tests
+psutil

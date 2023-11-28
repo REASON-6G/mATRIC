@@ -1,0 +1,18 @@
+{
+    "SSID": "dist_",
+    "MACaddr": "",
+    "results": {
+        "Signal": 0,
+        "HighSignal": 0,
+        "RSSI": 0,
+        "HighRSSI": 0,
+        "Channel": 0,
+        "Location": {
+            "LAT": 0,
+            "LON": 0
+        },
+        "Authentication": "",
+        "Encryption": "",
+        "Manufacturer": ""
+    }
+}

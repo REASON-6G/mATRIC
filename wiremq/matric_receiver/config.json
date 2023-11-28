@@ -1,0 +1,11 @@
+{
+  "in_channel_config": {
+    "type": "channel",
+    "name": "Inbound channel",
+    "alias": "in_channel",
+    "host": "127.0.0.1",
+    "port": 8052,
+    "dest_host": "127.0.0.1",
+    "dest_port": 8051
+  }
+}

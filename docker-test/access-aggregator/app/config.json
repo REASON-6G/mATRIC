@@ -1,0 +1,11 @@
+{
+  "in_channel_config": {
+    "type": "channel",
+    "name": "Inbound channel",
+    "alias": "in_channel",
+    "host": "0.0.0.0",
+    "port": 10000,
+    "dest_host": "127.0.0.1",
+    "dest_port": 10001
+  }
+}
