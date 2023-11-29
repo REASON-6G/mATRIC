@@ -32,9 +32,15 @@ services:
       - "8086:8086"
     volumes:
       - influxdb_data:/var/lib/influxdb
-    env_file:
-      - dbconfig.env 
+    environment:
+      - INFLUXDB_DB=yourdbname  
+      - INFLUXDB_USER=yourusername  
+      - INFLUXDB_USER_PASSWORD=yourpassword  
+    networks:
+      - default
 
 volumes:
   influxdb_data:
-    # This will create a persistent volume for your InfluxDB data
+
+networks:
+  default:
