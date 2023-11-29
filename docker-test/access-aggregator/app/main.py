@@ -15,6 +15,8 @@ with open(config_path, "r") as f:
 ch1 = endpointfactory.EndpointFactory().build(config)
 logger.test(f"Listening on {config['host']}:{config['port']}")
 
+# TODo write a function that receives the msg, deconstructs it to understand what is the AP tech and then pushes to the appropriate bucket
+
 while True:
     msgs = ch1.receive()
     for msg in msgs:
