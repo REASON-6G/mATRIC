@@ -35,6 +35,20 @@ services:
     env_file:
       - dbconfig.env 
 
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana.ini:/etc/grafana/grafana.ini
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin  # Default admin user, change as needed
+      - GF_SECURITY_ADMIN_PASSWORD=admin  # Default admin password, change as needed
+
 volumes:
   influxdb_data:
-    # This will create a persistent volume for your InfluxDB data
+  grafana_data:
+
+
+
