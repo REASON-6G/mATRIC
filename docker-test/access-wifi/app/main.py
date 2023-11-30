@@ -172,8 +172,6 @@ class APManager:
         data["results"]["RSSI"] = random.randint(-100, 0)  # Received Signal Strength Indicator
         data["results"]["HighRSSI"] = random.randint(-100, 0)  # Highest recorded RSSI
         data["results"]["Channel"] = random.randint(1, 11)  # WiFi channel
-        data["results"]["Location"]["LAT"] = random.uniform(-90, 90)  # Latitude
-        data["results"]["Location"]["LON"] = random.uniform(-180, 180)  # Longitude
         data["results"]["Authentication"] = random.choice(["WPA", "WPA2", "WEP", "None"])
         data["results"]["Encryption"] = random.choice(["AES", "TKIP", "WEP", "None"])
         data["results"]["Manufacturer"] = ''.join(random.choices(string.ascii_letters, k=10))

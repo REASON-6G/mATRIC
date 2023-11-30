@@ -16,9 +16,11 @@ ch1 = endpointfactory.EndpointFactory().build(config)
 logger.test(f"Listening on {config['host']}:{config['port']}")
 
 # TODo write a function that receives the msg, deconstructs it to understand what is the AP tech and then pushes to the appropriate bucket
-
+def storing_mechanism_matric(datastream):
+    
 while True:
     msgs = ch1.receive()
     for msg in msgs:
         logger.test(json.dumps(msg, indent=2))
+        #storing_mechanism_matric(msg)
     time.sleep(0.05)
