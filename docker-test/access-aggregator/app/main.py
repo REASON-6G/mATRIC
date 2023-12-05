@@ -1,9 +1,20 @@
 import logging
 import time
 import json
+from influxdb_client import InfluxDBClient, Point, WriteOptions
 from pathlib import Path
 import os
 from wiremq.gateway.endpoints import endpointfactory
+
+# InfluxDB settings (update with your actual settings)
+influxdb_url = 'http://10.68.184.115:8086'
+token = 'du7IaysJRVc42qj12qfD83eGCWHIPoULUteENo15q7vbcdHElFlG_ws_aYvGQvAwP9KhLxIYiZqKoCfobvJcCg=='
+org = 'UoB'
+bucket_mapping = {
+    '5G': '5Gaccess',
+    'wifi': 'WiFiaccess',
+    'lifi': 'LiFiaccess'
+}
 
 logger = logging.getLogger("in_channel_logger")
 
@@ -15,12 +26,58 @@ with open(config_path, "r") as f:
 ch1 = endpointfactory.EndpointFactory().build(config)
 logger.test(f"Listening on {config['host']}:{config['port']}")
 
+def flatten_json(y):
+    out = {}
+
+    def flatten(x, name=''):
+        if type(x) is dict:
+            for a in x:
+                flatten(x[a], name + a + '_')
+        elif type(x) is list:
+            i = 0
+            for a in x:
+                flatten(a, name + str(i) + '_')
+                i += 1
+        else:
+            out[name[:-1]] = x
+
+    flatten(y)
+    return out
+
 # TODo write a function that receives the msg, deconstructs it to understand what is the AP tech and then pushes to the appropriate bucket
-def storing_mechanism_matric(datastream):
-    
+def write_to_influx(json_data):
+    client = InfluxDBClient(url=influxdb_url, token=token, org=org)
+    write_api = client.write_api(write_options=WriteOptions(batch_size=1))
+
+    # Parse and flatten the JSON data
+    if isinstance(json_data, dict):
+        data = json_data
+    else:
+        data = json.loads(json_data)
+    flat_data = flatten_json(data)
+
+    # Extract the 'Aptech' or 'APtech' field to determine the bucket
+    aptech = flat_data.get('payload_data_Aptech') or flat_data.get('payload_data_APtech')
+
+    if aptech and aptech in bucket_mapping:
+        bucket = bucket_mapping[aptech]
+        point = Point("measurement").tag("Aptech", aptech)
+        
+        # Add each flattened field as a field in the Point
+        for key, value in flat_data.items():
+            point = point.field(key, value)
+
+        # Write the point to InfluxDB
+        write_api.write(bucket=bucket, org=org, record=point)
+        logger.test("Data written to bucket: {bucket}")
+    else:
+        logger.test("Invalid or missing Aptech/APtech field")
+
+    client.close()
+
 while True:
     msgs = ch1.receive()
     for msg in msgs:
         logger.test(json.dumps(msg, indent=2))
-        #storing_mechanism_matric(msg)
+        write_to_influx(msg)
     time.sleep(0.05)

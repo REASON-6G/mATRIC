@@ -7,6 +7,7 @@ RUN apt-get update -y
 RUN apt install software-properties-common -y
 RUN add-apt-repository ppa:deadsnakes/ppa -y
 RUN apt install python3.10 pip python3.10-venv -y
+RUN pip install influxdb-client
 
 # Install other dependencies
 RUN apt install wget curl mariadb-server-10.6 sqlite3 -y
