@@ -2,9 +2,9 @@ from influxdb_client import InfluxDBClient, Point, WriteOptions
 import time
 
 # InfluxDB settings
-influxdb_url = 'http://localhost:8086'
-token = 'your-token'
-org = 'your-org'
+influxdb_url = 'http://10.68.184.115:8086'
+token = 'du7IaysJRVc42qj12qfD83eGCWHIPoULUteENo15q7vbcdHElFlG_ws_aYvGQvAwP9KhLxIYiZqKoCfobvJcCg=='
+org = 'UoB'
 bucket_5G = '5Gaccess'
 bucket_wifi = 'WiFiaccess'
 
