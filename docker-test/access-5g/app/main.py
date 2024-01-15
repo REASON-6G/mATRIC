@@ -56,6 +56,8 @@ class APManager:
         self.json_5g_structure = None
         self.json_wifi_structure = None
         self._initialise_channel(self.channel_config_file)
+        self.triggered_behavior = False  # Flag to track if triggered behavior is active
+        self.start_time = None  # Variable to store the start time of triggered behavior
 
     def _load_structure(self, file_path):
         if os.path.exists(file_path):
@@ -63,6 +65,17 @@ class APManager:
                 return json.load(file)
         else:
             raise FileNotFoundError(f"The structure file {file_path} does not exist.")
+
+    def control_behavior(self, start_behavior=True):
+        """Control the behavior of increasing and decreasing bandwidth and utilization."""
+        if start_behavior:
+            # Start the triggered behavior
+            self.triggered_behavior = True
+            self.start_time = time.time()
+        else:
+            # Stop the triggered behavior
+            self.triggered_behavior = False
+            self.start_time = None
 
     def getAPdata(self, ap_type):
         if ap_type.lower() == '5g':
@@ -75,6 +88,26 @@ class APManager:
             data = self.populate_wifi_data()
         else:
             raise ValueError("AP type must be '5g' or 'wifi'.")
+
+        if self.triggered_behavior:
+            # Introduce time-based control for bandwidth and utilization
+            current_time = time.time()
+            elapsed_time = current_time - self.start_time
+            phase_duration = 10
+
+            if elapsed_time < phase_duration:
+                # WiFi bandwidth and utilization increasing phase
+                data['results']['RadioStatistics']['Bandwidth'] += random.uniform(1, 5)
+                data['results']['ChannelUtilization'] += random.uniform(1, 5)
+            elif elapsed_time < 2 * phase_duration:
+                # 5G and LiFi bandwidth and utilization increasing phase
+                data['results']['RadioStatistics']['Bandwidth'] += random.uniform(1, 5)
+                data['results']['ChannelUtilization'] += random.uniform(1, 5)
+            elif elapsed_time < 3 * phase_duration:
+                # WiFi bandwidth and utilization decreasing phase
+                data['results']['RadioStatistics']['Bandwidth'] -= random.uniform(1, 5)
+                data['results']['ChannelUtilization'] -= random.uniform(1, 5)
+
 
         data['timestamp'] = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
         data['matricID'] = generate_matric_id()

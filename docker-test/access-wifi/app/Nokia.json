@@ -26,6 +26,8 @@
         "rvrsTestDisp": "rvrs_",
         "testOutcome": "outcome_",
         "testOutcomeAdditionalInfo": "info_",
-        "sinr": 0.0
+        "sinr": 0.0,
+        "Bandwidth": 0,  // Added Bandwidth
+        "Utilization": 0 // Added Utilization
     }
 }

@@ -1,6 +1,3 @@
-# this code will generate 5G Nokia CLI data in json format
-# the pubAPdata function should publish to wiremq the json object
-# we need to implement the same generation for wifi and lifi
 import os
 import json
 from typing import Dict
@@ -16,6 +13,7 @@ from wiremq.gateway.endpoints import endpointfactory
 path = Path(__file__).parent
 json_structure_5g_file = os.path.join(path, "Nokia.json")
 json_structure_wifi_file = os.path.join(path, "wifi.json")
+json_structure_lifi_file = os.path.join(path, "lifi.json")
 wmq_channel_config_file = os.path.join(path, "wmq-channel.json")
 
 def generate_random_time() -> Dict:
@@ -52,6 +50,8 @@ class APManager:
     def __init__(self, structure_5g_file_path, structure_wifi_file_path, channel_config_file):
         self.structure_5g_file_path = structure_5g_file_path
         self.structure_wifi_file_path = structure_wifi_file_path
+        self.structure_lifi_file_path = structure_lifi_file_path
+        self.json_lifi_structure = None
         self.channel_config_file = channel_config_file
         self.json_5g_structure = None
         self.json_wifi_structure = None
@@ -73,12 +73,16 @@ class APManager:
             if not self.json_wifi_structure:
                 self.json_wifi_structure = self._load_structure(self.structure_wifi_file_path)
             data = self.populate_wifi_data()
+        elif ap_type.lower() == 'lifi':
+            if not self.json_lifi_structure:
+                self.json_lifi_structure = self._load_structure(self.structure_lifi_file_path)
+            data = self.populate_lifi_data()
         else:
-            raise ValueError("AP type must be '5g' or 'wifi'.")
+            raise ValueError("AP type must be '5g', 'wifi', or 'lifi'.")
 
         data['timestamp'] = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
         data['matricID'] = generate_matric_id()
-        
+
         return data
 
     def _initialise_structure(self, structure_path: Dict) -> None:
@@ -178,6 +182,35 @@ class APManager:
 
         return data
 
+    def populate_lifi_data(self) -> Dict:
+        data = json.loads(json.dumps(self.json_lifi_structure))
+        
+        # Populate LiFi structure with random data
+        data["SSID"] += ''.join(random.choices(string.ascii_letters, k=5))
+        data["MACaddr"] = ':'.join(['{:02x}'.format(random.randint(0, 255)) for _ in range(6)])
+        data["results"]["SignalStrengthRSSI"] = random.randint(-100, 0)
+        data["results"]["Bitrate"] = random.randint(1, 1000)
+        data["results"]["PacketStatistics"]["Transmitted"] = random.randint(0, 10000)
+        data["results"]["PacketStatistics"]["Received"] = random.randint(0, 10000)
+        data["results"]["PacketStatistics"]["Errors"] = random.randint(0, 100)
+        data["results"]["ClientCount"] = random.randint(0, 500)
+        data["results"]["ChannelUtilization"] = random.uniform(0, 100)
+        data["results"]["TransmitPower"] = random.uniform(0, 100)
+        data["results"]["Throughput"] = random.uniform(0, 10000)
+        data["results"]["Latency"] = random.uniform(0, 100)
+        data["results"]["Jitter"] = random.uniform(0, 50)
+        data["results"]["PacketLoss"] = random.uniform(0, 100)
+        data["results"]["AuthenticationRate"] = random.uniform(0, 100)
+        data["results"]["DisassociationDeauthentication"] = random.randint(0, 100)
+        data["results"]["WIDSAlerts"] = random.randint(0, 50)
+        data["results"]["ResourceUtilization"]["CPUUsage"] = random.uniform(0, 100)
+        data["results"]["ResourceUtilization"]["MemoryUsage"] = random.uniform(0, 100)
+        data["results"]["RadioStatistics"]["Frequency"] = random.uniform(2400, 2500)  # Example frequency range
+        data["results"]["RadioStatistics"]["Modulation"] = random.choice(["QAM", "PSK", "FSK"])
+        data["results"]["RadioStatistics"]["Bandwidth"] = random.uniform(20, 160)  # Example bandwidth values in MHz
+
+        return data
+
     def _construct_message(self, payload: Dict) -> Dict:
         """Builds headers and payload for a wiremq message.
 
@@ -218,12 +251,29 @@ class APManager:
         self._channel.close()
 
 
+# Create an instance of APManager
 ap_manager = APManager(
     json_structure_5g_file,
     json_structure_wifi_file,
     wmq_channel_config_file
 )
 
+# Command-line interface to control the behavior
+while True:
+    command = input("Enter a command (start/stop/exit): ")
+    if command.lower() == "start":
+        ap_manager.control_behavior(start_behavior=True)
+        print("Triggered behavior started.")
+    elif command.lower() == "stop":
+        ap_manager.control_behavior(start_behavior=False)
+        print("Triggered behavior stopped.")
+    elif command.lower() == "exit":
+        break
+    else:
+        print("Invalid command. Use 'start' to start, 'stop' to stop, or 'exit' to exit.")
+
+# Cleanup and close the wiremq channel
+ap_manager.close()
 
 while True:
     # Get and print data for a 5G access point
