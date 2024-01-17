@@ -12,6 +12,8 @@
         "Channel": 0,
         "Authentication": "",
         "Encryption": "",
-        "Manufacturer": ""
+        "Manufacturer": "",
+        "Bandwidth": 0,
+        "Utilization": 0
     }
 }

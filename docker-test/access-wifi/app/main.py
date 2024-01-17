@@ -47,7 +47,7 @@ def generate_matric_id() -> Dict:
 
 # APManager class definition
 class APManager:
-    def __init__(self, structure_5g_file_path, structure_wifi_file_path, channel_config_file):
+    def __init__(self, structure_5g_file_path, structure_wifi_file_path, structure_lifi_file_path, channel_config_file):
         self.structure_5g_file_path = structure_5g_file_path
         self.structure_wifi_file_path = structure_wifi_file_path
         self.structure_lifi_file_path = structure_lifi_file_path
@@ -55,7 +55,14 @@ class APManager:
         self.channel_config_file = channel_config_file
         self.json_5g_structure = None
         self.json_wifi_structure = None
-        self._initialise_channel(self.channel_config_file)
+        self._channel = None  # Initialize the channel as None
+        self.triggered_behavior = False
+        self.start_time = None
+        
+        try:
+            self._initialise_channel(self.channel_config_file)
+        except Exception as e:
+            logging.error(f"Failed to initialize the channel: {e}")
 
     def _load_structure(self, file_path):
         if os.path.exists(file_path):
@@ -63,6 +70,17 @@ class APManager:
                 return json.load(file)
         else:
             raise FileNotFoundError(f"The structure file {file_path} does not exist.")
+
+    def control_behavior(self, start_behavior=True):
+        """Control the behavior of increasing and decreasing bandwidth and utilization."""
+        if start_behavior:
+            # Start the triggered behavior
+            self.triggered_behavior = True
+            self.start_time = time.time()
+        else:
+            # Stop the triggered behavior
+            self.triggered_behavior = False
+            self.start_time = None
 
     def getAPdata(self, ap_type):
         if ap_type.lower() == '5g':
@@ -82,6 +100,22 @@ class APManager:
 
         data['timestamp'] = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
         data['matricID'] = generate_matric_id()
+
+        if self.triggered_behavior:
+            # Check if triggered behavior is active
+            elapsed_time = time.time() - self.start_time
+            if 0 <= elapsed_time < 10:
+                # WiFi bandwidth and utilization go up for 10 seconds
+                data['results']['Bandwidth'] += random.uniform(1, 5)
+                data['results']['Utilization'] += random.uniform(1, 5)
+            elif 10 <= elapsed_time < 20:
+                # 5G and LiFi bandwidth and utilization go up for 10 seconds
+                data['results']['Bandwidth'] += random.uniform(1, 5)
+                data['results']['Utilization'] += random.uniform(1, 5)
+            elif 20 <= elapsed_time < 30:
+                # WiFi bandwidth and utilization go down for 10 seconds
+                data['results']['Bandwidth'] -= random.uniform(1, 5)
+                data['results']['Utilization'] -= random.uniform(1, 5)
 
         return data
 
@@ -127,20 +161,21 @@ class APManager:
             Assembled 5G data payload.
         """
         data = json.loads(json.dumps(self.json_5g_structure))
-        
+
         # Populate the JSON structure with random data
         data["distName"] += ''.join(random.choices(string.ascii_letters, k=5))
-        data["cellId"] = \
-            ''.join(random.choices(string.ascii_letters + string.digits, k=8))
+        data["cellId"] = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
         data["cellType"] = random.randint(1, 4)
         data["results"]["actualStartTime"] = generate_random_time()
         data["results"]["actualStopTime"] = generate_random_time()
-        data["results"]["fwdTestDisp"] += \
-            ''.join(random.choices(string.ascii_letters, k=3))
-        data["results"]["result"] += \
-            ''.join(random.choices(string.ascii_letters, k=3))
-        
-        # Populate the rfAntResults with random data
+        data["results"]["fwdTestDisp"] += ''.join(random.choices(string.ascii_letters, k=3))
+        data["results"]["result"] += ''.join(random.choices(string.ascii_letters, k=3))
+
+    # Populate bandwidth and utilization
+        data["results"]["Bandwidth"] = random.uniform(0, 20)  # Maximum bandwidth capped at 20 Gbps
+        data["results"]["Utilization"] = random.uniform(0, 100)  # Utilization in the range of 0 to 100 percent
+
+    # Populate the rfAntResults with random data
         rf_ant_results = data["results"]["rfAntResults"]
         rf_ant_results["antId"] = random.randint(1, 10)
         rf_ant_results["fwdETPw"] = random.uniform(0, 100)
@@ -153,14 +188,11 @@ class APManager:
         rf_ant_results["vswr"] = random.uniform(1, 3)
         rf_ant_results["rsi"] = random.uniform(-100, 0)        # Assuming NR
         rf_ant_results["sinr"] = random.uniform(0, 30)         # Assuming NR
-        
+
         # Populate the rest of the fields with random data
-        data["results"]["rvrsTestDisp"] += \
-            ''.join(random.choices(string.ascii_letters, k=3))
-        data["results"]["testOutcome"] += \
-            ''.join(random.choices(string.ascii_letters, k=3))
-        data["results"]["testOutcomeAdditionalInfo"] += \
-            ''.join(random.choices(string.ascii_letters, k=10))
+        data["results"]["rvrsTestDisp"] += ''.join(random.choices(string.ascii_letters, k=3))
+        data["results"]["testOutcome"] += ''.join(random.choices(string.ascii_letters, k=3))
+        data["results"]["testOutcomeAdditionalInfo"] += ''.join(random.choices(string.ascii_letters, k=10))
         data["results"]["sinr"] = random.uniform(0, 30)        # Assuming LTE
 
         return data
@@ -171,8 +203,12 @@ class APManager:
         # Populate WiFi structure with random data
         data["SSID"] += ''.join(random.choices(string.ascii_letters, k=5))
         data["MACaddr"] = ':'.join(['{:02x}'.format(random.randint(0, 255)) for _ in range(6)])
-        data["results"]["Signal"] = random.randint(-100, 0)  # Signal strength in dBm
-        data["results"]["HighSignal"] = random.randint(-100, 0)  # Highest recorded signal strength in dBm
+        
+        # Populate bandwidth and utilization within specified ranges
+        data["results"]["Bandwidth"] = random.uniform(0, 9.5)  # 0 to 9.5 Gbps for WiFi
+        data["results"]["Utilization"] = random.uniform(0, 100)  # 0% to 100%
+        
+        data["results"]["HighSignal"] = random.uniform(0, 9.5)  # Highest recorded signal strength in Gbps
         data["results"]["RSSI"] = random.randint(-100, 0)  # Received Signal Strength Indicator
         data["results"]["HighRSSI"] = random.randint(-100, 0)  # Highest recorded RSSI
         data["results"]["Channel"] = random.randint(1, 11)  # WiFi channel
@@ -188,8 +224,11 @@ class APManager:
         # Populate LiFi structure with random data
         data["SSID"] += ''.join(random.choices(string.ascii_letters, k=5))
         data["MACaddr"] = ':'.join(['{:02x}'.format(random.randint(0, 255)) for _ in range(6)])
-        data["results"]["SignalStrengthRSSI"] = random.randint(-100, 0)
-        data["results"]["Bitrate"] = random.randint(1, 1000)
+        
+        # Populate bandwidth and utilization within specified ranges
+        data["results"]["Bandwidth"] = random.uniform(1, 3.5)  # 1 to 3.5 Gbps for LiFi
+        data["results"]["Utilization"] = random.uniform(0, 100)  # 0% to 100%
+        
         data["results"]["PacketStatistics"]["Transmitted"] = random.randint(0, 10000)
         data["results"]["PacketStatistics"]["Received"] = random.randint(0, 10000)
         data["results"]["PacketStatistics"]["Errors"] = random.randint(0, 100)
@@ -210,6 +249,7 @@ class APManager:
         data["results"]["RadioStatistics"]["Bandwidth"] = random.uniform(20, 160)  # Example bandwidth values in MHz
 
         return data
+
 
     def _construct_message(self, payload: Dict) -> Dict:
         """Builds headers and payload for a wiremq message.
@@ -255,25 +295,23 @@ class APManager:
 ap_manager = APManager(
     json_structure_5g_file,
     json_structure_wifi_file,
+    json_structure_lifi_file,
     wmq_channel_config_file
 )
 
 # Command-line interface to control the behavior
-while True:
-    command = input("Enter a command (start/stop/exit): ")
-    if command.lower() == "start":
-        ap_manager.control_behavior(start_behavior=True)
-        print("Triggered behavior started.")
-    elif command.lower() == "stop":
-        ap_manager.control_behavior(start_behavior=False)
-        print("Triggered behavior stopped.")
-    elif command.lower() == "exit":
-        break
-    else:
-        print("Invalid command. Use 'start' to start, 'stop' to stop, or 'exit' to exit.")
-
-# Cleanup and close the wiremq channel
-ap_manager.close()
+# while True:
+#     command = input("Enter a command (start/stop/exit): ")
+#     if command.lower() == "start":
+#         ap_manager.control_behavior(start_behavior=True)
+#         print("Triggered behavior started.")
+#     elif command.lower() == "stop":
+#         ap_manager.control_behavior(start_behavior=False)
+#         print("Triggered behavior stopped.")
+#     elif command.lower() == "exit":
+#         break
+#     else:
+#         print("Invalid command. Use 'start' to start, 'stop' to stop, or 'exit' to exit.")
 
 while True:
     # Get and print data for a 5G access point
