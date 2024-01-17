@@ -53,6 +53,8 @@ class APManager:
         self.structure_lifi_file_path = structure_lifi_file_path
         self.json_lifi_structure = None
         self.channel_config_file = channel_config_file
+        self.previous_5g_bandwidth = None
+        self.previous_5g_utilization = None
         self.json_5g_structure = None
         self.json_wifi_structure = None
         self._channel = None  # Initialize the channel as None
@@ -172,11 +174,27 @@ class APManager:
         data["results"]["fwdTestDisp"] += ''.join(random.choices(string.ascii_letters, k=3))
         data["results"]["result"] += ''.join(random.choices(string.ascii_letters, k=3))
 
-    # Populate bandwidth and utilization
-        data["results"]["Bandwidth"] = random.uniform(0, 20)  # Maximum bandwidth capped at 20 Gbps
-        data["results"]["Utilization"] = random.uniform(0, 100)  # Utilization in the range of 0 to 100 percent
+        # Populate bandwidth and utilization
+        max_bandwidth_change_5g = 2.0  # Define maximum change per iteration for 5G (e.g., 2 Gbps)
+        if self.previous_5g_bandwidth is None:
+            data["results"]["Bandwidth"] = random.uniform(0.0, 20.0)
+        else:
+            new_bandwidth = self.previous_5g_bandwidth + random.uniform(-max_bandwidth_change_5g, max_bandwidth_change_5g)
+            data["results"]["Bandwidth"] = min(max(new_bandwidth, 0.0), 20.0)  # Ensure within 0 to 20 Gbps range
 
-    # Populate the rfAntResults with random data
+        # Generate more realistic Utilization for 5G
+        max_utilization_change_5g = 10.0  # Define maximum change per iteration for 5G (e.g., 10%)
+        if self.previous_5g_utilization is None:
+            data["results"]["Utilization"] = random.uniform(0.0, 100.0)
+        else:
+            new_utilization = self.previous_5g_utilization + random.uniform(-max_utilization_change_5g, max_utilization_change_5g)
+            data["results"]["Utilization"] = min(max(new_utilization, 0.0), 100.0)  # Ensure within 0% to 100% range
+
+        # Update previous values for 5G
+        self.previous_5g_bandwidth = data["results"]["Bandwidth"]
+        self.previous_5g_utilization = data["results"]["Utilization"]
+        # Populate the rfAntResults with random data
+        
         rf_ant_results = data["results"]["rfAntResults"]
         rf_ant_results["antId"] = random.randint(1, 10)
         rf_ant_results["fwdETPw"] = random.uniform(0, 100)
@@ -197,8 +215,6 @@ class APManager:
         data["results"]["sinr"] = random.uniform(0, 30)        # Assuming LTE
 
         return data
-
-
 
     def populate_wifi_data(self) -> Dict:
         data = json.loads(json.dumps(self.json_wifi_structure))

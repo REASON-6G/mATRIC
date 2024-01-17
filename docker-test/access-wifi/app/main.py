@@ -53,6 +53,8 @@ class APManager:
         self.structure_lifi_file_path = structure_lifi_file_path
         self.json_lifi_structure = None
         self.channel_config_file = channel_config_file
+        self.previous_wifi_bandwidth = None
+        self.previous_wifi_utilization = None
         self.json_5g_structure = None
         self.json_wifi_structure = None
         self._channel = None  # Initialize the channel as None
@@ -205,9 +207,25 @@ class APManager:
         data["MACaddr"] = ':'.join(['{:02x}'.format(random.randint(0, 255)) for _ in range(6)])
         
         # Populate bandwidth and utilization within specified ranges
-        data["results"]["Bandwidth"] = random.uniform(0, 9.5)  # 0 to 9.5 Gbps for WiFi
-        data["results"]["Utilization"] = random.uniform(0, 100)  # 0% to 100%
-        
+        max_bandwidth_change = 1.0  # Define maximum change per iteration (e.g., 1 Gbps)
+        if self.previous_wifi_bandwidth is None:
+            data["results"]["Bandwidth"] = random.uniform(0, 9.5)
+        else:
+            new_bandwidth = self.previous_wifi_bandwidth + random.uniform(-max_bandwidth_change, max_bandwidth_change)
+            data["results"]["Bandwidth"] = min(max(new_bandwidth, 0), 9.5)  # Ensure within 0 to 9.5 Gbps range
+
+    # Generate more realistic Utilization
+        max_utilization_change = 5.0  # Define maximum change per iteration (e.g., 5%)
+        if self.previous_wifi_utilization is None:
+            data["results"]["Utilization"] = random.uniform(0.0, 100.0)
+        else:
+            new_utilization = self.previous_wifi_utilization + random.uniform(-max_utilization_change, max_utilization_change)
+            data["results"]["Utilization"] = min(max(new_utilization, 0.0), 100.0)  # Ensure within 0% to 100% range
+
+        # Update previous values
+        self.previous_wifi_bandwidth = data["results"]["Bandwidth"]
+        self.previous_wifi_utilization = data["results"]["Utilization"]
+
         data["results"]["HighSignal"] = random.uniform(0, 9.5)  # Highest recorded signal strength in Gbps
         data["results"]["RSSI"] = random.randint(-100, 0)  # Received Signal Strength Indicator
         data["results"]["HighRSSI"] = random.randint(-100, 0)  # Highest recorded RSSI
@@ -226,9 +244,25 @@ class APManager:
         data["MACaddr"] = ':'.join(['{:02x}'.format(random.randint(0, 255)) for _ in range(6)])
         
         # Populate bandwidth and utilization within specified ranges
-        data["results"]["Bandwidth"] = random.uniform(1, 3.5)  # 1 to 3.5 Gbps for LiFi
-        data["results"]["Utilization"] = random.uniform(0, 100)  # 0% to 100%
-        
+        max_bandwidth_change_lifi = 0.5  # Define maximum change per iteration for LiFi (e.g., 0.5 Gbps)
+        if self.previous_lifi_bandwidth is None:
+            data["results"]["Bandwidth"] = random.uniform(1, 3.5)
+        else:
+            new_bandwidth = self.previous_lifi_bandwidth + random.uniform(-max_bandwidth_change_lifi, max_bandwidth_change_lifi)
+            data["results"]["Bandwidth"] = min(max(new_bandwidth, 1), 3.5)  # Ensure within 1 to 3.5 Gbps range
+
+        # Generate more realistic Utilization for LiFi
+        max_utilization_change_lifi = 10.0  # Define maximum change per iteration for LiFi (e.g., 10%)
+        if self.previous_lifi_utilization is None:
+            data["results"]["Utilization"] = random.uniform(0, 100)
+        else:
+            new_utilization = self.previous_lifi_utilization + random.uniform(-max_utilization_change_lifi, max_utilization_change_lifi)
+            data["results"]["Utilization"] = min(max(new_utilization, 0), 100)  # Ensure within 0% to 100% range
+
+        # Update previous values for LiFi
+        self.previous_lifi_bandwidth = data["results"]["Bandwidth"]
+        self.previous_lifi_utilization = data["results"]["Utilization"]
+
         data["results"]["PacketStatistics"]["Transmitted"] = random.randint(0, 10000)
         data["results"]["PacketStatistics"]["Received"] = random.randint(0, 10000)
         data["results"]["PacketStatistics"]["Errors"] = random.randint(0, 100)
