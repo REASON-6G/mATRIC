@@ -82,7 +82,7 @@ class APManager:
                     f"{self._serviceactivator_config['http_port']}")
 
     def _prepare_payload_data(self, monitoring_data: Dict) -> Dict:
-        """Prepares the payload ready to send to the aggregator
+        """Prepares the payload ready to send to the aggregator.
 
         Parameters
         ----------

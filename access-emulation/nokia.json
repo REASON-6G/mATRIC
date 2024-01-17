@@ -1,0 +1,31 @@
+{
+    "Aptech": "5G",
+    "Latitude": 41.354647,
+    "Longitude": 2.12756,
+    "distName": "dist_",
+    "cellId": "",
+    "cellType": 0,
+    "results": {
+        "actualStartTime": "",
+        "actualStopTime": "",
+        "fwdTestDisp": "fwd_",
+        "result": "result_",
+        "rfAntResults": {
+            "antId": 0,
+            "fwdETPw": 0.0,
+            "fwdETPdBm": 0.0,
+            "fwdTPEerror": 0.0,
+            "fwdTTPw": 0.0,
+            "fwdTTPdBm": 0.0,
+            "rModId": 0,
+            "rtwp": 0.0,
+            "vswr": 0.0,
+            "rsi": 0.0,
+            "sinr": 0.0
+        },
+        "rvrsTestDisp": "rvrs_",
+        "testOutcome": "outcome_",
+        "testOutcomeAdditionalInfo": "info_",
+        "sinr": 0.0
+    }
+}
