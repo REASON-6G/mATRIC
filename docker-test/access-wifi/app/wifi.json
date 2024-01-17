@@ -13,7 +13,7 @@
         "Authentication": "",
         "Encryption": "",
         "Manufacturer": "",
-        "Bandwidth": 0,  // Added Bandwidth
-        "ChannelUtilization": 0 // Added Channel Utilization
+        "Bandwidth": 0,
+        "Utilization": 0
     }
 }

@@ -11,9 +11,9 @@ influxdb_url = 'http://10.128.2.174:8086'
 token = 'du7IaysJRVc42qj12qfD83eGCWHIPoULUteENo15q7vbcdHElFlG_ws_aYvGQvAwP9KhLxIYiZqKoCfobvJcCg=='
 org = 'UoB'
 bucket_mapping = {
-    '5G': '5Gaccess',
-    'wifi': 'WiFiaccess',
-    'lifi': 'LiFiaccess'
+    '5G': '5G',
+    'wifi': 'Wifi',
+    'lifi': 'Lifi'
 }
 
 logger = logging.getLogger("in_channel_logger")

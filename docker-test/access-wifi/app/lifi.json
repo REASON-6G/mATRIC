@@ -6,7 +6,7 @@
     "MACaddr": "",
     "results": {
         "SignalStrengthRSSI": 0,
-        "Bitrate": 0,
+        "Bandwidth": 0,
         "PacketStatistics": {
             "Transmitted": 0,
             "Received": 0,
