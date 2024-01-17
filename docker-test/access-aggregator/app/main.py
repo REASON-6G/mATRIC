@@ -23,9 +23,6 @@ config_path = os.path.join(path, "config.json")
 with open(config_path, "r") as f:
     config = json.load(f)["in_channel_config"]
 
-ch1 = endpointfactory.EndpointFactory().build(config)
-logger.test(f"Listening on {config['host']}:{config['port']}")
-
 def flatten_json(y):
     out = {}
 
@@ -75,9 +72,15 @@ def write_to_influx(json_data):
 
     client.close()
 
-while True:
-    msgs = ch1.receive()
-    for msg in msgs:
-        # logger.test(json.dumps(msg, indent=2))
-        write_to_influx(msg)
-    time.sleep(0.05)
+
+if __name__ == "__main__":
+    ch1 = endpointfactory.EndpointFactory().build(config)
+    logger.test(f"WireMQ Channel listening on port {config['port']}")
+
+    while True:
+        msgs = ch1.receive()
+        for msg in msgs:
+            logger.test(f"WireMQ Channel received {msg.get('message_id')} from"
+                        f" {msg.get('sender_alias')}")
+            write_to_influx(msg)
+        time.sleep(0.05)
