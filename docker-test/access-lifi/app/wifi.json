@@ -1,0 +1,19 @@
+{
+    "Aptech": "wifi",
+    "Latitude": 41.354647,
+    "Longitude": 2.12756,
+    "SSID": "dist_",
+    "MACaddr": "",
+    "results": {
+        "Signal": 0,
+        "HighSignal": 0,
+        "RSSI": 0,
+        "HighRSSI": 0,
+        "Channel": 0,
+        "Authentication": "",
+        "Encryption": "",
+        "Manufacturer": "",
+        "Bandwidth": 0,  // Added Bandwidth
+        "ChannelUtilization": 0 // Added Channel Utilization
+    }
+}

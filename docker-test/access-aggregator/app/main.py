@@ -78,6 +78,6 @@ def write_to_influx(json_data):
 while True:
     msgs = ch1.receive()
     for msg in msgs:
-        logger.test(json.dumps(msg, indent=2))
+        # logger.test(json.dumps(msg, indent=2))
         write_to_influx(msg)
     time.sleep(0.05)

@@ -15,6 +15,14 @@ services:
     ports:
       - 10002:10002
 
+  access-lifi:
+    build:
+      context: .
+      dockerfile: access-lifi/Dockerfile
+    ports:
+      - 10003:10003
+      - 8083:8083
+
   access-agg:
     build:
       context: .
