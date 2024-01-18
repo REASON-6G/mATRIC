@@ -121,19 +121,20 @@ class BaseAPEmulator:
 
         data['timestamp'] = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
         data['matricID'] = self._generate_matric_id()
+        phase_duration = 10
 
         if self._trigger:
             # Check if triggered behavior is active
             elapsed_time = time.time() - self._start_time
-            if 0 <= elapsed_time < 10:
+            if elapsed_time < phase_duration:
                 # WiFi bandwidth and utilization go up for 10 seconds
                 data['results']['Bandwidth'] += random.uniform(1, 5)
                 data['results']['Utilization'] += random.uniform(1, 5)
-            elif 10 <= elapsed_time < 20:
+            elif elapsed_time < 2 * phase_duration:
                 # 5G and LiFi bandwidth and utilization go up for 10 seconds
                 data['results']['Bandwidth'] += random.uniform(1, 5)
                 data['results']['Utilization'] += random.uniform(1, 5)
-            elif 20 <= elapsed_time < 30:
+            elif elapsed_time < 3 * phase_duration:
                 # WiFi bandwidth and utilization go down for 10 seconds
                 data['results']['Bandwidth'] -= random.uniform(1, 5)
                 data['results']['Utilization'] -= random.uniform(1, 5)

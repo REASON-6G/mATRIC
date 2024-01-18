@@ -49,18 +49,18 @@ class APEmulatorWiFi(baseapemulator.BaseAPEmulator):
         data["MACaddr"] = ':'.join(
             ['{:02x}'.format(random.randint(0, 255)) for _ in range(6)])
 
-        # Populate bandwidth and utilization within specified ranges
-        max_bandwidth_change = 1.0  # Define maximum change per iteration (e.g., 1 Gbps)
+        # Populate bandwidth and utilization
+        max_bandwidth_change = 1.0  # (e.g., 1 Gbps)
+        max_utilization_change = 5.0  # (e.g., 5%)
+
         if self._previous_bandwidth is None:
-            data["results"]["Bandwidth"] = random.uniform(0, 9.5)
+            data["results"]["Bandwidth"] = random.uniform(0, 20)
         else:
             new_bandwidth = self._previous_bandwidth + random.uniform(
                 -max_bandwidth_change, max_bandwidth_change)
             data["results"]["Bandwidth"] = min(max(new_bandwidth, 0),
-                                               9.5)  # Ensure within 0 to 9.5 Gbps range
+                                               20)  # Ensure within 0 to 9.5 Gbps range
 
-        # Generate more realistic Utilization
-        max_utilization_change = 5.0  # Define maximum change per iteration (e.g., 5%)
         if self._previous_utilization is None:
             data["results"]["Utilization"] = random.uniform(0.0, 100.0)
         else:
@@ -69,17 +69,16 @@ class APEmulatorWiFi(baseapemulator.BaseAPEmulator):
             data["results"]["Utilization"] = min(max(new_utilization, 0.0),
                                                  100.0)  # Ensure within 0% to 100% range
 
-        # Update previous values
-        self.previous_wifi_bandwidth = data["results"]["Bandwidth"]
-        self.previous_wifi_utilization = data["results"]["Utilization"]
+        self.previous_5g_bandwidth = data["results"]["Bandwidth"]
+        self.previous_5g_utilization = data["results"]["Utilization"]
 
-        data["results"]["HighSignal"] = random.uniform(0,
-                                                       9.5)  # Highest recorded signal strength in Gbps
-        data["results"]["RSSI"] = random.randint(-100,
-                                                 0)  # Received Signal Strength Indicator
-        data["results"]["HighRSSI"] = random.randint(-100,
-                                                     0)  # Highest recorded RSSI
+        data["results"]["Signal"] = random.randint(-100, 0)  # Signal strength in dBm
+        data["results"]["HighSignal"] = random.randint(-100, 0)  # Highest recorded signal strength in dBm
+        data["results"]["RSSI"] = random.randint(-100, 0)  # Received Signal Strength Indicator
+        data["results"]["HighRSSI"] = random.randint(-100, 0)  # Highest recorded RSSI
         data["results"]["Channel"] = random.randint(1, 11)  # WiFi channel
+        data["results"]["Location"]["LAT"] = random.uniform(-90, 90)  # Latitude
+        data["results"]["Location"]["LON"] = random.uniform(-180, 180)  # Longitude
         data["results"]["Authentication"] = random.choice(
             ["WPA", "WPA2", "WEP", "None"])
         data["results"]["Encryption"] = random.choice(

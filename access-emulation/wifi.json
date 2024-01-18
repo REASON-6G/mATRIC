@@ -14,6 +14,10 @@
         "Encryption": "",
         "Manufacturer": "",
         "Bandwidth": 0,
-        "Utilization": 0
+        "Utilization": 0,
+        "Location": {
+            "LAT": 0,
+            "LON": 0
+        }
     }
 }
