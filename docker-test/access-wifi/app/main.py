@@ -173,9 +173,25 @@ class APManager:
         data["results"]["fwdTestDisp"] += ''.join(random.choices(string.ascii_letters, k=3))
         data["results"]["result"] += ''.join(random.choices(string.ascii_letters, k=3))
 
-    # Populate bandwidth and utilization
-        data["results"]["Bandwidth"] = random.uniform(0, 20)  # Maximum bandwidth capped at 20 Gbps
-        data["results"]["Utilization"] = random.uniform(0, 100)  # Utilization in the range of 0 to 100 percent
+        # Populate bandwidth and utilization
+        max_bandwidth_change = 1.0  # (e.g., 1 Gbps)
+        max_utilization_change = 5.0  # (e.g., 5%)
+
+        if self.previous_5g_bandwidth is None:
+            data["results"]["Bandwidth"] = random.uniform(0, 20)
+        else:
+            new_bandwidth = self.previous_5g_bandwidth + random.uniform(-max_bandwidth_change, max_bandwidth_change)
+            data["results"]["Bandwidth"] = min(max(new_bandwidth, 0), 20)  # Ensure within 0 to 9.5 Gbps range
+
+        if self.previous_5g_utilization is None:
+            data["results"]["Utilization"] = random.uniform(0.0, 100.0)
+        else:
+            new_utilization = self.previous_5g_utilization + random.uniform(-max_utilization_change, max_utilization_change)
+            data["results"]["Utilization"] = min(max(new_utilization, 0.0), 100.0)  # Ensure within 0% to 100% range
+
+        self.previous_5g_bandwidth = data["results"]["Bandwidth"]
+        self.previous_5g_utilization = data["results"]["Utilization"]
+
 
     # Populate the rfAntResults with random data
         rf_ant_results = data["results"]["rfAntResults"]
@@ -214,7 +230,7 @@ class APManager:
             new_bandwidth = self.previous_wifi_bandwidth + random.uniform(-max_bandwidth_change, max_bandwidth_change)
             data["results"]["Bandwidth"] = min(max(new_bandwidth, 0), 9.5)  # Ensure within 0 to 9.5 Gbps range
 
-    # Generate more realistic Utilization
+        # Generate more realistic Utilization
         max_utilization_change = 5.0  # Define maximum change per iteration (e.g., 5%)
         if self.previous_wifi_utilization is None:
             data["results"]["Utilization"] = random.uniform(0.0, 100.0)
@@ -283,7 +299,6 @@ class APManager:
         data["results"]["RadioStatistics"]["Bandwidth"] = random.uniform(20, 160)  # Example bandwidth values in MHz
 
         return data
-
 
     def _construct_message(self, payload: Dict) -> Dict:
         """Builds headers and payload for a wiremq message.
