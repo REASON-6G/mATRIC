@@ -155,7 +155,11 @@ class APManager:
             self._respond_monitoring_http(msg)
 
             # Extract the monitoring data
-            monitoring_data = msg["payload"]["data"]
+            try:
+                monitoring_data = json.loads(msg["payload"]["data"])
+            except json.decoder.JSONDecodeError as e:
+                logger.error(f"unable to decode message: {e}")
+                return
 
             # Supplement with mATRIC data
             payload_data = self._prepare_payload_data(monitoring_data)

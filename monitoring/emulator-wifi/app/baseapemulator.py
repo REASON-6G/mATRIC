@@ -5,8 +5,10 @@ import random
 import string
 from datetime import datetime
 import time
-import uuid
-from urllib import request, parse
+from urllib import request
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 
 class BaseAPEmulator:
@@ -141,28 +143,6 @@ class BaseAPEmulator:
 
         return data
 
-    def _construct_message(self, payload: Dict) -> Dict:
-        """Builds headers and payload for a wiremq message.
-
-        Parameters
-        ----------
-        payload: Dict
-            The payload data from mATRIC access point.
-
-        Returns
-        -------
-        message: Dict
-            The constructed wiremq message.
-        """
-        message = {
-            "message_id": str(uuid.uuid4()),
-            "type": "event",
-            "payload": {
-                "data": payload
-            }
-        }
-        return message
-
     def publish_data(self) -> None:
         """Publishes the access point data.
 
@@ -175,20 +155,20 @@ class BaseAPEmulator:
             The payload data from mATRIC access point.
         """
         payload = self._generate_access_point_data()
-        message = self._construct_message(payload)
+        logging.info("publishing monitoring data")
         try:
-            data = parse.urlencode(message).encode()
+            # data = parse.urlencode(json.dumps(payload)).encode()
             req = request.Request(
                 self._url,
                 headers={
-                    "Accept": "application/json",
-                    "Content-Type": "application/json",
-                    "User-Agent": "5G-emulator"
+                    "Accept": "text/plain",
+                    "Content-Type": "text/plain",
+                    "User-Agent": "AP-emulator"
                 },
-                data=data
+                data=json.dumps(payload).encode("utf-8")
             )
             response = request.urlopen(req)
-            print(response.status)
+            logging.debug(response.status)
         except BaseException:
             pass
 
