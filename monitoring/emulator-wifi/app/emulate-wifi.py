@@ -93,7 +93,7 @@ path = Path(__file__).parent
 json_structure_file = os.path.join(path, "wifi.json")
 
 # URL to publish emulated monitoring data to
-url = "http://127.0.0.1:8082/testapi/v1/monitoring/data"
+url = "http://access-wifi:8082/testapi/v1/monitoring/data"
 
 # Create an instance of APManager
 ap_manager = APEmulatorWiFi(

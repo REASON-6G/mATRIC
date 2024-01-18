@@ -106,21 +106,22 @@ class APEmulator5G(baseapemulator.BaseAPEmulator):
 
         return data
 
-# Define the path to the JSON structure file and channel configuration file.
-path = Path(__file__).parent
-json_structure_file = os.path.join(path, "nokia.json")
+if __name__ == "__main__":
+    # Define the path to the JSON structure file and channel configuration file.
+    path = Path(__file__).parent
+    json_structure_file = os.path.join(path, "nokia.json")
 
-# URL to publish emulated monitoring data to
-url = "http://127.0.0.1:8081/testapi/v1/monitoring/data"
+    # URL to publish emulated monitoring data to
+    url = "http://access-5g:8081/testapi/v1/monitoring/data"
 
-# Create an instance of APManager
-ap_manager = APEmulator5G(
-    json_structure_file,
-    url
-)
+    # Create an instance of APManager
+    ap_manager = APEmulator5G(
+        json_structure_file,
+        url
+    )
 
-# Main event loop for emulator application
-while True:
-    #
-    ap_manager.publish_data()
-    time.sleep(5)
+    # Main event loop for emulator application
+    while True:
+        #
+        ap_manager.publish_data()
+        time.sleep(5)

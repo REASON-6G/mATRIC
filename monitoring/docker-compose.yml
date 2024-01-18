@@ -36,6 +36,18 @@ services:
         aliases:
           - ap_aggregator
 
+  emulate-5g:
+    build: emulator-5g
+    restart: always
+
+  emulate-wifi:
+    build: emulator-wifi
+    restart: always
+
+  emulate-lifi:
+    build: emulator-lifi
+    restart: always
+
   influxdb:
     image: influxdb:latest
     ports:

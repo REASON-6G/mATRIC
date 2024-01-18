@@ -66,7 +66,7 @@ def write_to_influx(json_data):
 
         # Write the point to InfluxDB
         write_api.write(bucket=bucket, org=org, record=point)
-        logger.test("Data written to bucket: {bucket}")
+        logger.test(f"Data written to bucket: {bucket}")
     else:
         logger.test("Invalid or missing Aptech/APtech field")
 

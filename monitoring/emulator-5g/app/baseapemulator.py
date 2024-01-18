@@ -6,7 +6,7 @@ import string
 from datetime import datetime
 import time
 import uuid
-import requests
+from urllib import request, parse
 
 
 class BaseAPEmulator:
@@ -176,16 +176,21 @@ class BaseAPEmulator:
         """
         payload = self._generate_access_point_data()
         message = self._construct_message(payload)
-        print(requests.post(
-            self._url,
-            headers={
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "User-Agent": "5G-emulator"
-            },
-            data=message,
-            timeout=5
-        ))
+        try:
+            data = parse.urlencode(message).encode()
+            req = request.Request(
+                self._url,
+                headers={
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "User-Agent": "5G-emulator"
+                },
+                data=data
+            )
+            response = request.urlopen(req)
+            print(response.status)
+        except BaseException:
+            pass
 
     def toggle_trigger(self, enable_trigger=True) -> None:
         """Controls the behavior of increasing and decreasing bandwidth and
