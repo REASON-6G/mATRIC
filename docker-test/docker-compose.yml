@@ -1,19 +1,21 @@
 version: '3.10'
 
 services:
-#  access-5g:
-#    build:
-#      context: .
-#      dockerfile: access-5g/Dockerfile
-#    ports:
-#      - 10001:10001
-#
-#  access-wifi:
-#    build:
-#      context: .
-#      dockerfile: access-wifi/Dockerfile
-#    ports:
-#      - 10002:10002
+  access-5g:
+    build:
+      context: .
+      dockerfile: access-5g/Dockerfile
+    ports:
+      - 10001:10001
+      - 8081:8081
+
+  access-wifi:
+    build:
+      context: .
+      dockerfile: access-wifi/Dockerfile
+    ports:
+      - 10002:10002
+      - 8082:8082
 
   access-lifi:
     build:

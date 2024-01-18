@@ -1,0 +1,42 @@
+{
+  "channel_config": {
+    "type": "channel",
+    "name": "5G publishing channel",
+    "alias": "channel_5g",
+    "host": "0.0.0.0",
+    "port": 10001,
+    "dest_host": "ap_aggregator",
+    "dest_port": 10000,
+    "console_level": 21
+  },
+  "serviceactivator_config": {
+    "type": "serviceactivator",
+    "name": "Service Activator 5G",
+    "alias": "serviceactivator_5g",
+    "http_host": "0.0.0.0",
+    "http_port": 8081,
+    "services": {
+      "monitoring": [
+        "data"
+      ]
+    },
+    "host": "0.0.0.0",
+    "port": 11001,
+    "dest_host": "127.0.0.1",
+    "dest_port": 10001,
+    "transaction_store_config": {
+      "db_type": "sqlite",
+      "db_file": "transaction_store.db",
+      "credentials": {
+        "db_file": "service_activator_5g_transactions.db"
+      }
+    },
+    "history_store_config": {
+      "db_type": "sqlite",
+      "db_file": "history_store.db",
+      "credentials": {
+        "db_file": "service_activator_5g_message_history.db"
+      }
+    }
+  }
+}
