@@ -49,10 +49,10 @@ class BaseAPEmulator:
         """
         self._structure = self._load_structure(structure_file_path)
         self._url = url
-        self._previous_bandwidth = 0
-        self._previous_utilization = 0
+        self._previous_bandwidth = 0.0
+        self._previous_utilization = 0.0
         self._trigger = False
-        self._start_time = 0
+        self._start_time = 0.0
 
     def _load_structure(self, structure_file_path: str) -> Dict:
         """Loads the AP data structure from a JSON file.

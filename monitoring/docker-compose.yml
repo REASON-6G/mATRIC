@@ -41,15 +41,21 @@ services:
           - ap_aggregator
 
   emulate-5g:
-    build: emulator-5g
+    build:
+      context: .
+      dockerfile: emulator-5g/Dockerfile
     restart: always
 
   emulate-wifi:
-    build: emulator-wifi
+    build:
+      context: .
+      dockerfile: emulator-wifi/Dockerfile
     restart: always
 
   emulate-lifi:
-    build: emulator-lifi
+    build:
+      context: .
+      dockerfile: emulator-lifi/Dockerfile
     restart: always
 
   influxdb:
