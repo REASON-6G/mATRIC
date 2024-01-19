@@ -56,7 +56,7 @@ class APEmulatorLiFi(baseapemulator.BaseAPEmulator):
         else:
             new_bandwidth = self._previous_bandwidth + random.uniform(
                 -max_bandwidth_change_lifi, max_bandwidth_change_lifi)
-            data["results"]["Bandwidth"] = min(max(new_bandwidth, 1),
+            data["results"]["Bandwidth"] = min(max(new_bandwidth, 1.0),
                                                3.5)  # Ensure within 1 to 3.5 Gbps range
 
         # Generate more realistic Utilization for LiFi
@@ -66,8 +66,8 @@ class APEmulatorLiFi(baseapemulator.BaseAPEmulator):
         else:
             new_utilization = self._previous_utilization + random.uniform(
                 -max_utilization_change_lifi, max_utilization_change_lifi)
-            data["results"]["Utilization"] = min(max(new_utilization, 0),
-                                                 100)  # Ensure within 0% to 100% range
+            data["results"]["Utilization"] = min(max(new_utilization, 0.0),
+                                                 100.0)  # Ensure within 0% to 100% range
 
         # Update previous values for LiFi
         self.previous_lifi_bandwidth = data["results"]["Bandwidth"]
