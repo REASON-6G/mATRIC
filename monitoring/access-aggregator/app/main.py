@@ -81,6 +81,7 @@ if __name__ == "__main__":
         msgs = ch1.receive()
         for msg in msgs:
             logger.test(f"WireMQ Channel received {msg.get('message_id')} from"
-                        f" {msg.get('sender_alias')}")
+                        f" {msg.get('sender_alias')}, payload = "
+                        f"{json.dumps(msg.get('payload'))[:50]}...")
             write_to_influx(msg)
         time.sleep(0.05)
