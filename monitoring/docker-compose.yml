@@ -78,7 +78,7 @@ services:
       - ./grafana.ini:/etc/grafana/grafana.ini
     environment:
       - GF_SECURITY_ADMIN_USER=admin  # Default admin user, change as needed
-      - GF_SECURITY_ADMIN_PASSWORD=admin  # Default admin password, change as needed
+      - GF_SECURITY_ADMIN_PASSWORD=reason  # Default admin password, change as needed
 
 volumes:
   influxdb_data:
