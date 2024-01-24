@@ -7,8 +7,9 @@ import os
 from wiremq.gateway.endpoints import endpointfactory
 
 # InfluxDB settings (update with your actual settings)
-influxdb_url = 'http://10.128.2.174:8086'
-token = 'du7IaysJRVc42qj12qfD83eGCWHIPoULUteENo15q7vbcdHElFlG_ws_aYvGQvAwP9KhLxIYiZqKoCfobvJcCg=='
+# influxdb_url = 'http://10.128.2.174:8086'  # for remote connections
+influxdb_url = "http://influxdb:8086"  # for local connections
+token = 'qvZLWRnNXyAeIeHm96pbbM54zJfz3UE559RZvVH8aHPedZqpcDUMMazuRF0-vulHyNrFEF7Qh3SEeTDt8sVP1g=='
 org = 'UoB'
 bucket_mapping = {
     '5G': '5G',

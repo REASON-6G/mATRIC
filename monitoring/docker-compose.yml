@@ -88,12 +88,12 @@ services:
     build:
       context: .
       dockerfile: dashboard/Dockerfile
-    volumes:
-      - dashboard_data:/app
+#    volumes:
+#      - dashboard_data:/app
     ports:
       - 5000:5000
     links:
-      - db
+      - dashboarddb
     depends_on:
       - dashboarddb
       - grafana

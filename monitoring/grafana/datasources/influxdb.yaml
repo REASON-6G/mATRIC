@@ -4,11 +4,11 @@ datasources:
   - name: InfluxDB_v2_Flux
     type: influxdb
     access: proxy
-    url: http://10.128.2.174:8086/
+    url: http://influxdb:8086/
     jsonData:
       version: Flux
       organization: UoB
       defaultBucket: default bucket
       tlsSkipVerify: true
     secureJsonData:
-      token: XAyfr1nVMvW0eStmjIbJJzDIaC0rPt40wZiIlqy8yoauVp5V1mb_ZT1gLJX3ujrKJl64RZvsV4teq3iyw2UFfQ==
+      token: qvZLWRnNXyAeIeHm96pbbM54zJfz3UE559RZvVH8aHPedZqpcDUMMazuRF0-vulHyNrFEF7Qh3SEeTDt8sVP1g==

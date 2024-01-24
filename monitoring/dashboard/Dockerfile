@@ -7,12 +7,13 @@ ENV PYTHONBUFFERED 1
 WORKDIR /app
 
 
-COPY requirements.txt /requirements.txt
+COPY dashboard/requirements.txt requirements.txt
 RUN pip install --upgrade pip
-RUN pip install -r /requirements.txt
+RUN pip install -r requirements.txt
 RUN pip install waitress
 
 
-COPY . .
+COPY dashboard .
 EXPOSE 5000
 CMD ["./entrypoint.sh"]
+#ENTRYPOINT ["tail", "-f", "/dev/null"]
