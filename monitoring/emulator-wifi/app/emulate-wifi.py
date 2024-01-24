@@ -50,27 +50,26 @@ class APEmulatorWiFi(baseapemulator.BaseAPEmulator):
             ['{:02x}'.format(random.randint(0, 255)) for _ in range(6)])
 
         # Populate bandwidth and utilization
-        max_bandwidth_change = 1.0  # (e.g., 1 Gbps)
+        max_bandwidth_change = 0.5 # (e.g., 1 Gbps)
         max_utilization_change = 5.0  # (e.g., 5%)
 
         if self._previous_bandwidth is None:
-            data["results"]["Bandwidth"] = random.uniform(0, 20)
+            data["results"]["Bandwidth"] = random.uniform(0.2, 2.0)
         else:
             new_bandwidth = self._previous_bandwidth + random.uniform(
                 -max_bandwidth_change, max_bandwidth_change)
-            data["results"]["Bandwidth"] = min(max(new_bandwidth, 0),
-                                               20)  # Ensure within 0 to 9.5 Gbps range
+            data["results"]["Bandwidth"] = min(max(new_bandwidth, 0.2), 2.0)  # Ensure within 0 to 9.5 Gbps range
 
         if self._previous_utilization is None:
-            data["results"]["Utilization"] = random.uniform(0.0, 100.0)
+            data["results"]["Utilization"] = random.uniform(5.0, 100.0)
         else:
             new_utilization = self._previous_utilization + random.uniform(
                 -max_utilization_change, max_utilization_change)
-            data["results"]["Utilization"] = min(max(new_utilization, 0.0),
+            data["results"]["Utilization"] = min(max(new_utilization, 5.0),
                                                  100.0)  # Ensure within 0% to 100% range
 
-        self.previous_5g_bandwidth = data["results"]["Bandwidth"]
-        self.previous_5g_utilization = data["results"]["Utilization"]
+        self.previous_bandwidth = data["results"]["Bandwidth"]
+        self.previous_utilization = data["results"]["Utilization"]
 
         data["results"]["Signal"] = random.randint(-100, 0)  # Signal strength in dBm
         data["results"]["HighSignal"] = random.randint(-100, 0)  # Highest recorded signal strength in dBm
