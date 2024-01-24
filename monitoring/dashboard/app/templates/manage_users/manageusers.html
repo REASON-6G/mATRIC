@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_form %}
+
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/browseFiles.css') }}">
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="{{url_for('static', filename='js/browseFiles.js')}}"></script>
+    {{render_static('js', 'js/user_jquery.js')}}
+    <script>setTab('navbar-manageUsers')</script>
+{% endblock %}
+
+
+{% block app_content %}
+<div style="text-align: center">
+    <h2>MANAGE USERS</h2>
+</div>
+<br/>
+    <div class="div-wrapper-scrollbar custom-scrollbar">
+        <table class="table">
+        		<thead>
+        			<tr>
+            			<th class="col-md-2">Username</th>
+            			<th class="col-md-2">Email</th>
+            			<th class="col-md-2">ID</th>
+            			<th class="col-md-2">Permission Level</th>
+            			<th class="col-md-2">Active</th>
+            			<th class="col-md-2">Actions</th>
+       			   </tr>
+        		</thead>
+            <tbody>
+            {% for user in users %}
+			<tr id ="{{user.id}}_row">
+			    <th scope="row" class="col-md-2">
+			        {{ user.username}}
+			    </th>
+			    <td class="col-md-2" style="font-size: small;">
+			        {{ user.email }}
+			    </td>
+			    <td class="col-md-2" style="font-size: small;">
+			        {{ user.id }}
+			    </td>
+			    <td class="col-md-2">
+			    	<select class="form-select" name="permlevel" data-user-id="{{user.id}}">
+          				{% for perm in permlevels %}
+          				      {% if perm["levelnum"] == user.permissionlevel %}
+          					  <option value="{{ perm["levelnum"] }}" SELECTED>{{ perm["levelname"] }}</option>
+          					  {% else %}
+          					  <option value="{{ perm["levelnum"] }}">{{ perm["levelname"] }}</option>
+          					  {% endif %}
+        				{% endfor %}   
+			    </td>
+			    <td class="col-md-2" >
+			    {%if user.permissionlevel == 2 %}
+			    	{{ user.active }}
+			    {% else %}
+			    	<select class="form-select" name="active" data-user-id="{{user.id}}">
+          				<option value="True" {% if user.active == True %} SELECTED {% endif %}>True</option>
+          				<option value="False" {% if user.active == False %} SELECTED {% endif %}>False</option>
+          		{% endif %}
+			    </td>
+			    <td class="col-md-2">
+					<button class="btn btn-outline-danger" name="deletebtn" data-user-id="{{user.id}}">
+					  <i class="fa fa-trash" id="{{user.id}}_trashicon" aria-hidden="true"></i>
+					  <i class="fa fa-spinner fa-spin" id="{{user.id}}_loader" style="display:none;"></i>
+					</button>
+			    </td>
+			</tr>            
+			{% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

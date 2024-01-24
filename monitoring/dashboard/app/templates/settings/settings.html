@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% import 'bootstrap/form.html' as wtf %}
+
+{% block styles %}
+{{ super() }}
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>setTab('navbar-settings')</script>
+    <script>
+    $('#profilelist a').on('click', function (e) {
+    	  e.preventDefault()
+    	  $(this).tab('show')
+    	})    
+    </script>
+{% endblock %}
+
+
+{% block app_content %}
+
+<div style="text-align: center">
+    <h2>SETTINGS</h2>
+	<br/>
+	Current URL: {{dashboard_url}}
+	
+    <form method="POST" action="">
+	 {{ form.hidden_tag() }}
+    {{ form.url.label }} {{ form.url(size=50) }}
+    {{ form.submit(class="form-control")}}
+</form>
+</div>
+<br/>
+
+
+</div>
+
+
+{% endblock %}

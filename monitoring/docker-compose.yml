@@ -76,13 +76,43 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafana.ini:/etc/grafana/grafana.ini
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/dashboard.yaml:/etc/grafana/provisioning/dashboards/main.yaml
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
     environment:
       - GF_SECURITY_ADMIN_USER=admin  # Default admin user, change as needed
       - GF_SECURITY_ADMIN_PASSWORD=reason  # Default admin password, change as needed
+      - GF_USERS_DEFAULT_THEME=light
 
+  dashboard:
+    build:
+      context: .
+      dockerfile: dashboard/Dockerfile
+    volumes:
+      - dashboard_data:/app
+    ports:
+      - 5000:5000
+    links:
+      - db
+    depends_on:
+      - dashboarddb
+      - grafana
+      - influxdb
+    env_file:
+      - dashboard.env
+
+  dashboarddb:
+    image: postgres:13.2-alpine
+    restart: always
+    env_file:
+      - dashboard.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
 volumes:
   influxdb_data:
   grafana_data:
-
-
+  postgres_data:
+  dashboard_data:
 

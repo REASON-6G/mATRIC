@@ -1,0 +1,14 @@
+apiVersion: 1
+
+datasources:
+  - name: InfluxDB_v2_Flux
+    type: influxdb
+    access: proxy
+    url: http://10.128.2.174:8086/
+    jsonData:
+      version: Flux
+      organization: UoB
+      defaultBucket: default bucket
+      tlsSkipVerify: true
+    secureJsonData:
+      token: token
