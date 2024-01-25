@@ -8,12 +8,6 @@ Flask-Moment
 psycopg2
 Bootstrap-Flask==2.3.2
 Werkzeug<3.1
-plotly>=5.0.0
-dash
-dash-html-components==2.0.0
-dash-core-components==2.0.0
-dash-bootstrap-components
-dash_table==5.0.0
 importlib-metadata==4.8.3;python_version<"3.7"
 importlib-metadata;python_version>="3.7"
 contextvars==2.4;python_version<"3.7"

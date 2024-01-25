@@ -57,16 +57,21 @@ services:
       context: .
       dockerfile: emulator-lifi/Dockerfile
     restart: always
-
+    
   influxdb:
     image: influxdb:latest
+#    build:
+#      context: .
+#      dockerfile: influxdb/Dockerfile
     restart: always
     ports:
       - "8086:8086"
     volumes:
       - influxdb_data:/var/lib/influxdb
+#     - ./influxdb/config.yml:/etc/influxdb2/config.yml
+#     - influxdb_config:/etc/influxdb2/
     env_file:
-      - dbconfig.env 
+      - dbconfig.env
 
   grafana:
     image: grafana/grafana:latest
@@ -90,6 +95,7 @@ services:
       dockerfile: dashboard/Dockerfile
 #    volumes:
 #      - dashboard_data:/app
+    restart: always
     ports:
       - 5000:5000
     links:
@@ -112,6 +118,7 @@ services:
       - "5432:5432"
 volumes:
   influxdb_data:
+#  influxdb_config:
   grafana_data:
   postgres_data:
   dashboard_data:

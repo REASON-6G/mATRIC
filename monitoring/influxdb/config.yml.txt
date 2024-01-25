@@ -1,0 +1,4 @@
+[matricconfig]
+  url = "http://localhost:9999"
+  token = "XAyfr1nVMvW0eStmjIbJJzDIaC0rPt40wZiIlqy8yoauVp5V1mb_ZT1gLJX3ujrKJl64RZvsV4teq3iyw2UFfQ=="
+  org = "UoB"
