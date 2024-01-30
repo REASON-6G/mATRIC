@@ -39,19 +39,15 @@ bit_rate_match = re.search(r'Bit Rate:\s+(\w+)', iwinfo_output)
 if bit_rate_match:
     lifi_info['Bit Rate'] = bit_rate_match.group(1)
 
-# Extract station details (MAC address, RSSI, Rx bandwidth, Rx packets, Tx bandwidth, and Tx packets) from assoclist_output
+# Extract MAC Address and RSSI from assoclist_output
 station_details = []
 for line in assoclist_output.splitlines():
-    match = re.match(r'^\s*([\w:]+)\s+(-?\d+)\s+(\d+)\s+(\d+)\s+(-?\d+)\s+(\d+)', line)
+    match = re.search(r'([\w:]+)\s+(-?\d+)\sdBm', line)
     if match:
-        mac_address, rssi, rx_bandwidth, rx_packets, tx_bandwidth, tx_packets = match.groups()
+        mac_address, rssi = match.groups()
         station_details.append({
             'MAC Address': mac_address,
             'RSSI': int(rssi),
-            'Rx Bandwidth': int(rx_bandwidth),
-            'Rx Packets': int(rx_packets),
-            'Tx Bandwidth': int(tx_bandwidth),
-            'Tx Packets': int(tx_packets)
         })
 
 # Add the station details to the lifi_info dictionary
