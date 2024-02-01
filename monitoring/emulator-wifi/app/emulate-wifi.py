@@ -5,6 +5,7 @@ import random
 import string
 import time
 from pathlib import Path
+import math
 import baseapemulator
 
 
@@ -34,58 +35,98 @@ class APEmulatorWiFi(baseapemulator.BaseAPEmulator):
 
     """
 
-    def _populate_data(self) -> Dict:
-        """Populates the AP JSON structure with random data.
+    STATIONS = [
+        "f4:7b:09:f0:9d:f3",
+        "c8:3a:35:a4:06:9d",
+        "a9:a1:bb:9f:e2:12"
+    ]
+
+    def _random(self,
+                min: float,
+                max: float,
+                x_scale: float = 1,
+                noise: float = 0.05) -> float:
+        """
+        Generates a psuedo-random number
+
+        Numbers are based on variations of a sine wave which is calculated
+        from the last 2 seconds of the current time.
+
+        The noise component of the wave is randomised
+        """
+        seed = time.time() % 100
+        rads = 200*3.1415926535/seed
+        jitter = random.uniform(-noise, noise)
+        # Produce a sine wave between 0 and 1 and add jitter
+        wave = 0.5*math.sin(rads/x_scale) + 1 + jitter
+
+        # Scale the sine wave from the user parameters
+        result = min + (max - min)*wave 
+        if result < 0:
+            result = 0
+        print(seed)
+        return result
+
+    def _generate_station_data(self, station_index: int) -> str:
+        """Generates randomised monitoring data from the access point.
+
+        Parameters
+        ----------
+        station_index: int
+            Identifier for the station in STATIONS to use
 
         Returns
         -------
-        data: Dict
-            Assembled WiFi data payload.
+        data: str
+            monitoring data
         """
-        data = json.loads(json.dumps(self._structure))
-
-        # Populate WiFi structure with random data
-        data["SSID"] += ''.join(random.choices(string.ascii_letters, k=5))
-        data["MACaddr"] = ':'.join(
-            ['{:02x}'.format(random.randint(0, 255)) for _ in range(6)])
-
-        # Populate bandwidth and utilization
-        max_bandwidth_change = 0.5 # (e.g., 1 Gbps)
-        max_utilization_change = 5.0  # (e.g., 5%)
-
-        if self._previous_bandwidth is None:
-            data["results"]["Bandwidth"] = random.uniform(0.2, 2.0)
-        else:
-            new_bandwidth = self._previous_bandwidth + random.uniform(
-                -max_bandwidth_change, max_bandwidth_change)
-            data["results"]["Bandwidth"] = min(max(new_bandwidth, 0.2), 2.0)  # Ensure within 0 to 9.5 Gbps range
-
-        if self._previous_utilization is None:
-            data["results"]["Utilization"] = random.uniform(5.0, 100.0)
-        else:
-            new_utilization = self._previous_utilization + random.uniform(
-                -max_utilization_change, max_utilization_change)
-            data["results"]["Utilization"] = min(max(new_utilization, 5.0),
-                                                 100.0)  # Ensure within 0% to 100% range
-
-        self.previous_bandwidth = data["results"]["Bandwidth"]
-        self.previous_utilization = data["results"]["Utilization"]
-
-        data["results"]["Signal"] = random.randint(-100, 0)  # Signal strength in dBm
-        data["results"]["HighSignal"] = random.randint(-100, 0)  # Highest recorded signal strength in dBm
-        data["results"]["RSSI"] = random.randint(-100, 0)  # Received Signal Strength Indicator
-        data["results"]["HighRSSI"] = random.randint(-100, 0)  # Highest recorded RSSI
-        data["results"]["Channel"] = random.randint(1, 11)  # WiFi channel
-        data["results"]["Location"]["LAT"] = random.uniform(-90, 90)  # Latitude
-        data["results"]["Location"]["LON"] = random.uniform(-180, 180)  # Longitude
-        data["results"]["Authentication"] = random.choice(
-            ["WPA", "WPA2", "WEP", "None"])
-        data["results"]["Encryption"] = random.choice(
-            ["AES", "TKIP", "WEP", "None"])
-        data["results"]["Manufacturer"] = ''.join(
-            random.choices(string.ascii_letters, k=10))
+        current_time = time.time()
+        data = f"Station {self.STATIONS[station_index]} (on wlp3s0)\n"
+        data += f"       inactive time: {self._random(1, 50000)}\n"
+        data += f"       rx bytes:      {self._random(1, 250000)}\n"
+        data += f"       rx packets:    {self._random(1, 40000000)}\n"
+        data += f"       tx bytes:    {self._random(0.1, 50000000)}\n"
+        data += f"       tx_packets:    {self._random(0.1, 50000)}\n"
+        data += f"       tx retries:    {self._random(0.01, 100)}\n"
+        data += f"       tx failed:    {int(self._random(0.01, 5))}\n"
+        data += f"       rx drop misc:    {int(self._random(1, 2))}\n"
+        data += f"       signal:    -{int(self._random(25, 100))} [-{int(self._random(20, 120))}, -{int(self._random(20, 120))}] dBm\n"
+        data += f"       signal avg:    {self._random(1, 150)}\n"
+        data += f"       tx bitrate:    {self._random(0.5, 10)}\n"
+        data += f"       tx duration:    {self._random(0.5, 10)} us\n"
+        data += f"       rx bitrate:    {self._random(1, 200)}\n"
+        data += f"       rx duration:    {self._random(1, 200000)} us\n"
+        data += f"       last ack signal:    {self._random(1, 100)}\n"
+        data += f"       avg ack signal:    {self._random(1, 80)}\n"
+        data += f"       authorized:    yes\n"
+        data += f"       authenticated:    yes\n"
+        data += f"       associated:    yes\n"
+        data += f"       preamble:    long\n"
+        data += f"       WMM/WME:    yes\n"
+        data += f"       MFP:    no\n"
+        data += f"       TDLS peer:    no\n"
+        data += f"       DTIM period:    2\n"
+        data += f"       beacon interval:    100\n"
+        data += f"       short slot time:    yes\n"
+        data += f"       connected time:    {self._random(0.01, 1500)}\n"
+        data += f"       associated at [boottime]:    {current_time - 13696145}\n"
+        data += f"       associated at:    {current_time - 13696145}\n"
+        data += f"       current time:    {current_time} ms\n"
 
         return data
+
+
+    def _populate_data(self) -> Dict:
+        """
+
+        """
+        data = ""
+        for station_index in range(0, 2):
+            data += self._generate_station_data(station_index)
+        
+        return data
+
+        
 
 # Define the path to the JSON structure file and channel configuration file.
 path = Path(__file__).parent
@@ -104,4 +145,5 @@ ap_manager = APEmulatorWiFi(
 while True:
     #
     ap_manager.publish_data()
+    # print(ap_manager._generate_station_data(0))
     time.sleep(5)
