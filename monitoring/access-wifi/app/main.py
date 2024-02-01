@@ -95,6 +95,7 @@ class APManager:
             Payload to be attached to the outgoing message to the aggregator.
         """
         payload_data = monitoring_data
+        logger.test(f"received monitoring payload: {monitoring_data}")
         payload_data["timestamp"] = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
         payload_data["matricID"] = generate_matric_id()
         payload_data["Aptech"] = "wifi"
@@ -161,14 +162,18 @@ class APManager:
                 logger.error(f"unable to decode message: {e}")
                 return
 
-            # Supplement with mATRIC data
-            payload_data = self._prepare_payload_data(monitoring_data)
+            try:
+              # Supplement with mATRIC data
+              payload_data = self._prepare_payload_data(monitoring_data)
+            except BaseException as e:
+              return
 
             # Prepare the message
             message = self._construct_message(payload_data)
 
             # Forward the monitoring data to the aggregator
             self._channel.send(message)
+
 
     def _respond_monitoring_http(self, msg: Dict):
         """Responds to the access point with a HTTP Response.
