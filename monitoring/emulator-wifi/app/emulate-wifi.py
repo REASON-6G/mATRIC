@@ -59,10 +59,11 @@ class APEmulatorWiFi:
             0.5, 0.1 is recommended as a sensible maximum)
         """
         seed = time.time() % 100
-        rads = 200*3.1415926535/seed
+        rads = seed * 2 * 3.1415926535 / 100
         jitter = random.uniform(-noise, noise)
         # Produce a sine wave between 0 and 1 and add jitter
-        wave = 0.5*(math.sin(rads/x_scale) + 1) + jitter
+        wave = 0.5*(math.sin(rads/x_scale) + 1) + \
+               0.25*(math.sin(rads/(5*x_scale)) + 1) + jitter
 
         # Scale the sine wave from the user parameters
         result = min + (max - min)*wave 
