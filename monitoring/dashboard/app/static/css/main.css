@@ -11,6 +11,13 @@ a {
   vertical-align: text-bottom;
 }
 
+.topbar{
+    padding-top: 5px;
+    height: 85px;
+    background-color: rgb(31 32 39);
+    border-radius: 0px 0px 20px 20px;
+}
+
 /*
  * Sidebar
  */
@@ -35,8 +42,11 @@ body {
 .w-sidebar {
     width: 250px;
     max-width: 250px;
-	background-color: rgb(17, 18, 23) !important;
-	font-size: large;
+    background-color: rgb(31 32 39) !important;
+    font-size: large;
+    margin-bottom: auto;
+    border-radius: 5px 20px 20px 5px;
+    padding-bottom: 20px;
 }
 
 
