@@ -1,4 +1,5 @@
 import os
+import re
 import json
 from typing import (
     Dict,
@@ -145,29 +146,38 @@ class APManager:
         data_json: Dict
             Computed dictionary containing monitoring data.
         """
-        data_json = []
-        current_station = None
         config = self._monitoring_config
+
+        def convert_numeric(value):
+            try:
+                numeric_part = re.search(r'-?[\d.]+', value).group()
+                if '.' in numeric_part:
+                    return float(numeric_part)
+                else:
+                    return int(numeric_part)
+            except (ValueError, AttributeError):
+                return value
+
+        stations = []
+        current_station = None
 
         for line in data.split('\n'):
             if config['station_identifier'] in line:
                 if current_station:
-                    data_json.append(current_station)
-                current_station = {'mac_address': line.split()[1],
-                                   'details': {}}
+                    stations.append(current_station)
+                current_station = {'details': {}}
+                current_station['mac_address'] = line.split()[1]
             elif current_station and config['delimiter'] in line:
                 key, value = map(str.strip, line.split(config['delimiter'], 1))
                 if key == config['mac_address_key']:
                     current_station['mac_address'] = value
                 else:
-                    current_station['details'][key] = value
+                    current_station['details'][key] = convert_numeric(value)
 
         if current_station:
-            data_json.append(current_station)
+            stations.append(current_station)
 
-        logging.critical(json.dumps(data_json, indent=2))
-
-        return data_json
+        return stations
 
     def _handle_http_message(self, msg: Dict):
         """Controls the HTTP interface
