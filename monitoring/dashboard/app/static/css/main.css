@@ -18,6 +18,13 @@ body {
    height: 100vh;
    overflow-x: hidden;
    padding-top: 55px;
+   background-color: rgb(17, 18, 23) !important;
+   color: white !important;
+
+}
+
+.bs-light{
+	background-color: rgb(17, 18, 23) !important;
 }
 
 .hiddenExpInfoRow {
@@ -28,11 +35,14 @@ body {
 .w-sidebar {
     width: 250px;
     max-width: 250px;
+	background-color: rgb(17, 18, 23) !important;
+	font-size: large;
 }
+
 
 .w-sidebar  ul li a {
   display: inline-block;
-  color: #316cac !important;
+  color: #5d84ad !important;
   width: 100%;
   font-weight: bold;
   text-decoration: none;
@@ -47,6 +57,7 @@ body {
 
 .w-sidebar  ul li a.active {
   color: white !important;
+  
 }
 
 .row.collapse {

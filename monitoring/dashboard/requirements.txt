@@ -6,7 +6,7 @@ Flask-Migrate==4.0.5
 Flask-WTF
 Flask-Moment
 psycopg2
-Bootstrap-Flask==2.3.2
+Bootstrap-Flask==2.3.3
 Werkzeug<3.1
 importlib-metadata==4.8.3;python_version<"3.7"
 importlib-metadata;python_version>="3.7"

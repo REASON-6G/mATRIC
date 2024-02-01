@@ -1,5 +1,5 @@
 {% from 'bootstrap5/nav.html' import render_nav_item %}
-{% from 'bootstrap5/utils.html' import render_static  %}
+{% from 'bootstrap5/utils.html' import render_static, render_icon  %}
 
 <html lang="en">
 <head>
@@ -26,7 +26,7 @@
 </head>
 <body>
 
-<div class="container-fluid fixed-top bg-light ">
+<div class="container-fluid fixed-top  ">
     <div class="row collapse show no-gutters d-flex h-100">
         <div class="col-3 px-0 w-sidebar navbar-collapse collapse d-none d-md-flex">
             <!-- spacer col -->
@@ -42,8 +42,8 @@
             <div class="d-flex">
                 <!-- toggler -->
              {% if current_user.is_authenticated %}
-                <button  href="#" data-bs-toggle="collapse" data-bs-target=".collapse" type="button" class="navbar-toggler d-sm d-md-none me-auto">
-                      <i class="bi bi-list bi-lg"></i>
+                <button  href="#" data-bs-toggle="collapse" data-bs-target=".collapse" type="button" class="navbar-toggler d-sm d-md-none me-auto" style="color:white;">
+                      {{ render_icon('list', 32) }}
                 </button>
                   {% endif %}
                 <div class="d-flex d-none d-sm d-md-none justify-content-center">
@@ -72,19 +72,19 @@
 	
 <div class="container-fluid px-0">
     <div class="row vh-100 collapse show no-gutters d-flex">
-        <div class="col-3 p-0 h-100 text-white w-sidebar navbar-collapse collapse d-none d-md-flex sidebar">
+        <div class="col-3 p-0 h-100 text-white w-sidebar navbar-collapse collapse d-none d-md-flex sidebar" style="margin-top:50px">
             <!-- fixed sidebar -->
-            <div class="navbar-light bg-light  h-100 w-sidebar">
+            <div class="navbar-light  h-100 w-sidebar">
                 <ul class="nav nav-pills flex-column flex-nowrap text-truncate">
                         {% if current_user.is_authenticated %}
-			            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+			            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1">
 			              <span>Monitoring</span>
 			            </h6>                   
 					         <li class="nav-item"><a class="nav-link matric_menu" id="navbar-main" href="{{ url_for('main.index') }}">Main</a></li>
 					         <li class="nav-item"><a class="nav-link matric_menu" id="navbar-dashboard" href="{{ url_for('dashboard.dashboard') }}">Dashboard</a></li>
 
 	                    {% if current_user.permissionlevel == 2 %}
-						<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+						<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1">
 						      <span>Tools</span>
 						</h6>
 							<li class="nav-item"><a class="nav-link matric_menu" id="navbar-profile" href="{{ url_for('profile.profile') }}">Profile</a></li>
