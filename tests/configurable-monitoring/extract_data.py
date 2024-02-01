@@ -2,7 +2,12 @@ import json
 import re
 
 
+
 def parse_data(data, config):
+    def convert_to_camel_case(name):
+        words = re.findall(r'\w+', name)
+        return words[0] + ''.join(word.capitalize() for word in words[1:])
+
     def convert_numeric(value):
         try:
             numeric_part = re.search(r'-?[\d.]+', value).group()
@@ -27,7 +32,8 @@ def parse_data(data, config):
             if key == config['mac_address_key']:
                 current_station['mac_address'] = value
             else:
-                current_station['details'][key] = convert_numeric(value)
+                camel_case_key = convert_to_camel_case(key)
+                current_station['details'][camel_case_key] = convert_numeric(value)
 
     if current_station:
         stations.append(current_station)
