@@ -1,6 +1,9 @@
 import os
 import json
-from typing import Dict
+from typing import (
+    Dict,
+    List
+)
 import random
 import string
 from datetime import datetime
@@ -14,7 +17,7 @@ logger = logging.getLogger("channel_wifi_logger")
 
 # Define the path to the JSON structure file and channel configuration file.
 path = Path(__file__).parent
-wmq_config_file = os.path.join(path, "wmq.json")
+config_file = os.path.join(path, "config.json")
 
 
 # Function to generate a unique identifier for matricID
@@ -32,18 +35,19 @@ def generate_matric_id() -> Dict:
 
 # APManager class definition
 class APManager:
-    def __init__(self, wmq_config_file):
-        self.wmq_config_file = wmq_config_file
+    def __init__(self, config_file):
+        self._config_file = config_file
         self._channel_config = None
         self._serviceactivator_config = None
+        self._monitoring_config = None
         self._channel = None
         self._serviceactivator = None
-        self._initialise_wmq_config(wmq_config_file)
+        self._initialise_configs(config_file)
         self._initialise_channel()
         self._initialise_serviceactivator()
         self._mf = messagefactory.MessageFactory()
 
-    def _initialise_wmq_config(self, config_file_path: str) -> None:
+    def _initialise_configs(self, config_file_path: str) -> None:
         """Loads the config file for WireMQ components
 
         Parameters
@@ -56,6 +60,7 @@ class APManager:
 
         self._channel_config = config["channel_config"]
         self._serviceactivator_config = config["serviceactivator_config"]
+        self._monitoring_config = config["monitoring_config"]
 
     def _initialise_channel(self) -> None:
         """Initialises a wiremq channel.
@@ -127,6 +132,43 @@ class APManager:
         message = self._mf.eventmessage(header, payload)
         return message
 
+    def _parse_monitoring_data(self, data: str) -> List:
+        """Parses raw text from monitoring stream, converting it to JSON.
+
+        Parameters
+        ----------
+        data: str
+            Raw data string from the WiFi monitoring
+
+        Returns
+        -------
+        data_json: Dict
+            Computed dictionary containing monitoring data.
+        """
+        data_json = []
+        current_station = None
+        config = self._monitoring_config
+
+        for line in data.split('\n'):
+            if config['station_identifier'] in line:
+                if current_station:
+                    data_json.append(current_station)
+                current_station = {'mac_address': line.split()[1],
+                                   'details': {}}
+            elif current_station and config['delimiter'] in line:
+                key, value = map(str.strip, line.split(config['delimiter'], 1))
+                if key == config['mac_address_key']:
+                    current_station['mac_address'] = value
+                else:
+                    current_station['details'][key] = value
+
+        if current_station:
+            data_json.append(current_station)
+
+        logging.critical(json.dumps(data_json, indent=2))
+
+        return data_json
+
     def _handle_http_message(self, msg: Dict):
         """Controls the HTTP interface
 
@@ -156,19 +198,24 @@ class APManager:
 
             # Extract the monitoring data
             try:
-                monitoring_data = json.loads(msg["payload"]["data"])
+                monitoring_data = \
+                    self._parse_monitoring_data(msg["payload"]["data"])
             except json.decoder.JSONDecodeError as e:
                 logger.error(f"unable to decode message: {e}")
                 return
+            except BaseException as e:
+                logger.error(f"unable to decode message: {e} {type(e)}")
+                return
 
             # Supplement with mATRIC data
-            payload_data = self._prepare_payload_data(monitoring_data)
+            for station in monitoring_data:
+                payload_data = self._prepare_payload_data(station)
 
-            # Prepare the message
-            message = self._construct_message(payload_data)
+                # Prepare the message
+                message = self._construct_message(payload_data)
 
-            # Forward the monitoring data to the aggregator
-            self._channel.send(message)
+                # Forward the monitoring data to the aggregator
+                self._channel.send(message)
 
     def _respond_monitoring_http(self, msg: Dict):
         """Responds to the access point with a HTTP Response.
@@ -236,7 +283,7 @@ class APManager:
 if __name__ == "__main__":
 
     # Create an instance of APManager
-    ap_manager = APManager(wmq_config_file)
+    ap_manager = APManager(config_file)
 
     while True:
         ap_manager.receive()

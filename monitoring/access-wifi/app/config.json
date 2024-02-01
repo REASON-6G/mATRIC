@@ -1,4 +1,9 @@
 {
+  "monitoring_config": {
+    "station_identifier": "Station",
+    "mac_address_key": "MAC Address",
+    "delimiter": ":"
+},
   "channel_config": {
     "type": "channel",
     "name": "WiFi publishing channel",
@@ -7,6 +12,7 @@
     "port": 10002,
     "dest_host": "ap_aggregator",
     "dest_port": 10000,
+    "buffer_size": 4096,
     "console_level": 21
   },
   "serviceactivator_config": {
@@ -15,6 +21,7 @@
     "alias": "serviceactivator_wifi",
     "http_host": "0.0.0.0",
     "http_port": 8082,
+    "buffer_size": 4096,
     "services": {
       "monitoring": [
         "data"

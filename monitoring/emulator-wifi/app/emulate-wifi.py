@@ -1,15 +1,14 @@
-import os
-import json
 from typing import Dict
 import random
-import string
 import time
-from pathlib import Path
 import math
-import baseapemulator
+import logging
+from urllib import request
+
+logging.basicConfig(level=logging.INFO)
 
 
-class APEmulatorWiFi(baseapemulator.BaseAPEmulator):
+class APEmulatorWiFi:
     """
     Access Point Emulator for WiFi
     ==============================
@@ -18,20 +17,10 @@ class APEmulatorWiFi(baseapemulator.BaseAPEmulator):
 
     Data is published to WireMQ/mATRIC using HTTP POST requests.
 
-    Parameters
+    Attributes
     ----------
-    _structure: Dict
-        Structure of the AP data output.
     _url: str
         The URL to send emulated monitoring data to via POST requests.
-    _previous_bandwidth: float
-        Bandwidth from previous iteration.
-    _previous_utilization: float
-        Utilization from previous iteration.
-    _trigger: bool
-        Flag to trigger change in behaviour of the published emulation data.
-    _start_time: float
-        Time snapshot when trigger is initialized.
 
     """
 
@@ -41,18 +30,33 @@ class APEmulatorWiFi(baseapemulator.BaseAPEmulator):
         "a9:a1:bb:9f:e2:12"
     ]
 
+    def __init__(self, url: str):
+        self._url = url
+
     def _random(self,
                 min: float,
                 max: float,
                 x_scale: float = 1,
                 noise: float = 0.05) -> float:
-        """
-        Generates a psuedo-random number
+        """Generates a psuedo-random number following a time-based sine wave.
 
         Numbers are based on variations of a sine wave which is calculated
         from the last 2 seconds of the current time.
 
         The noise component of the wave is randomised
+
+        Parameters
+        ----------
+        min: float
+            Minimum value of the noiseless waveform (with noise the
+            calculated value cannot go below 0)
+        max: float
+            Maximum number of the noiseless waveform
+        x_scale: float
+            The horizontal scale factor of the waveform
+        noise: float
+            The noise factor to apply to the waveform (should be between 0 and
+            0.5, 0.1 is recommended as a sensible maximum)
         """
         seed = time.time() % 100
         rads = 200*3.1415926535/seed
@@ -64,7 +68,6 @@ class APEmulatorWiFi(baseapemulator.BaseAPEmulator):
         result = min + (max - min)*wave 
         if result < 0:
             result = 0
-        print(seed)
         return result
 
     def _generate_station_data(self, station_index: int) -> str:
@@ -115,8 +118,7 @@ class APEmulatorWiFi(baseapemulator.BaseAPEmulator):
 
         return data
 
-
-    def _populate_data(self) -> Dict:
+    def _populate_data(self) -> str:
         """
 
         """
@@ -126,24 +128,41 @@ class APEmulatorWiFi(baseapemulator.BaseAPEmulator):
         
         return data
 
-        
+    def publish_data(self) -> None:
+        """Publishes the access point data.
 
-# Define the path to the JSON structure file and channel configuration file.
-path = Path(__file__).parent
-json_structure_file = os.path.join(path, "wifi.json")
+        Constructs a HTTP request and sends it to the monitoring app.
+
+        Parameters
+        ----------
+        payload: Dict
+            The payload data from mATRIC access point.
+        """
+        payload = self._populate_data()
+        logging.info(f"publishing monitoring data to {self._url}")
+        try:
+            req = request.Request(
+                self._url,
+                headers={
+                    "Accept": "text/plain",
+                    "Content-Type": "text/plain",
+                    "User-Agent": "AP-emulator"
+                },
+                data=payload.encode("utf-8")
+            )
+            response = request.urlopen(req, timeout=10)
+            logging.info(response.status)
+        except BaseException as e:
+            logging.warning(e)
+            pass
+
 
 # URL to publish emulated monitoring data to
 url = "http://access-wifi:8082/testapi/v1/monitoring/data"
 
 # Create an instance of APManager
-ap_manager = APEmulatorWiFi(
-    json_structure_file,
-    url
-)
-
+ap_manager = APEmulatorWiFi(url)
 # Main event loop for emulator application
 while True:
-    #
     ap_manager.publish_data()
-    # print(ap_manager._generate_station_data(0))
     time.sleep(5)
