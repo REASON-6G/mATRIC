@@ -87,7 +87,7 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=admin  # Default admin user, change as needed
       - GF_SECURITY_ADMIN_PASSWORD=reason  # Default admin password, change as needed
-      - GF_USERS_DEFAULT_THEME=light
+#     - GF_USERS_DEFAULT_THEME=light
 
   dashboard:
     build:
@@ -106,6 +106,8 @@ services:
       - influxdb
     env_file:
       - dashboard.env
+    volumes:
+      - ./dashboard:/app
 
   dashboarddb:
     image: postgres:13.2-alpine
