@@ -60,6 +60,9 @@ def write_to_influx(json_data):
     if aptech and aptech in bucket_mapping:
         bucket = bucket_mapping[aptech]
         point = Point("measurement").tag("Aptech", aptech)
+        if aptech == "wifi":
+            mac_address = flat_data.get('payload_data_mac_address')
+            point.tag("mac_address", mac_address)
         
         # Add each flattened field as a field in the Point
         for key, value in flat_data.items():
