@@ -37,7 +37,7 @@ class APEmulatorWiFi:
                 min: float,
                 max: float,
                 x_scale: float = 1,
-                noise: float = 0.05) -> float:
+                noise: float = 0.1) -> float:
         """Generates a psuedo-random number following a time-based sine wave.
 
         Numbers are based on variations of a sine wave which is calculated
@@ -94,7 +94,7 @@ class APEmulatorWiFi:
         data += f"       tx retries:    {self._random(0.01, 100)}\n"
         data += f"       tx failed:    {int(self._random(0.01, 5))}\n"
         data += f"       rx drop misc:    {int(self._random(1, 2))}\n"
-        data += f"       signal:    -{int(self._random(25, 100))} [-{int(self._random(20, 120))}, -{int(self._random(20, 120))}] dBm\n"
+        data += f"       signal:    -{int(self._random(50, 75))} [-{int(self._random(50, 80))}, -{int(self._random(50, 80))}] dBm\n"
         data += f"       signal avg:    {self._random(1, 150)}\n"
         data += f"       tx bitrate:    {self._random(0.5, 10)}\n"
         data += f"       tx duration:    {self._random(0.5, 10)} us\n"

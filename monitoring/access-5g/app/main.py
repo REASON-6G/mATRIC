@@ -10,7 +10,7 @@ from pathlib import Path
 from wiremq.gateway.endpoints import endpointfactory
 from wiremq.gateway.messages import messagefactory
 
-logger = logging.getLogger("channel_5g_logger")
+logging.basicConfig(level=30)
 
 # Define the path to the JSON structure file and channel configuration file.
 path = Path(__file__).parent
@@ -66,7 +66,7 @@ class APManager:
 
         self._channel = endpointfactory.EndpointFactory().build(
             self._channel_config)
-        logger.test(f"WireMQ Channel listening on port "
+        logging.warning(f"WireMQ Channel listening on port "
                     f"{self._channel_config['port']}")
 
     def _initialise_serviceactivator(self):
@@ -78,7 +78,7 @@ class APManager:
         self._serviceactivator = endpointfactory.EndpointFactory().build(
             self._serviceactivator_config)
         self._serviceactivator.start_server()
-        logger.test(f"WireMQ listening for HTTP messages on port "
+        logging.warning(f"WireMQ listening for HTTP messages on port "
                     f"{self._serviceactivator_config['http_port']}")
 
     def _prepare_payload_data(self, monitoring_data: Dict) -> Dict:
@@ -156,10 +156,10 @@ class APManager:
 
             # Extract the monitoring data
             try:
-                #monitoring_data = json.loads(msg["payload"]["data"])
-                monitoring_data = json.loads(msg)
+                monitoring_data = json.loads(msg["payload"]["data"])
+                #monitoring_data = json.loads(msg)
             except json.decoder.JSONDecodeError as e:
-                logger.error(f"unable to decode message: {e}")
+                logging.error(f"unable to decode message: {e}")
                 return
 
             # Supplement with mATRIC data
@@ -170,6 +170,7 @@ class APManager:
 
 
             # Forward the monitoring data to the aggregator
+            logging.warning(f"Sending to aggregator: {json.dumps(message, indent=2)}")
             self._channel.send(message)
 
     def _respond_monitoring_http(self, msg: Dict):
@@ -224,7 +225,7 @@ class APManager:
         # Receive messages on the channel
         msgs = self._channel.receive()
         for msg in msgs:
-            logger.test(f"WireMQ Channel received {msg.get('message_id')} from"
+            logging.warning(f"WireMQ Channel received {msg.get('message_id')} from"
                         f" {msg.get('sender_alias')}")
             if msg.get("tx_id") and msg.get("method") == "POST":
                 self._handle_http_message(msg)
