@@ -1,4 +1,9 @@
 {
+  "monitoring_config": {
+    "station_identifier": "Station",
+    "mac_address_key": "MAC Address",
+    "delimiter": ":"
+  },
   "channel_config": {
     "type": "channel",
     "name": "LiFi publishing channel",

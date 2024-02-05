@@ -6,6 +6,7 @@ import string
 from datetime import datetime
 import time
 import logging
+import re
 from pathlib import Path
 from wiremq.gateway.endpoints import endpointfactory
 from wiremq.gateway.messages import messagefactory
@@ -36,6 +37,7 @@ class APManager:
         self.wmq_config_file = wmq_config_file
         self._channel_config = None
         self._serviceactivator_config = None
+        self._monitoring_config = None
         self._channel = None
         self._serviceactivator = None
         self._initialise_wmq_config(wmq_config_file)
@@ -56,6 +58,7 @@ class APManager:
 
         self._channel_config = config["channel_config"]
         self._serviceactivator_config = config["serviceactivator_config"]
+        self._monitoring_config = config["monitoring_config"]
 
     def _initialise_channel(self) -> None:
         """Initialises a wiremq channel.
@@ -81,27 +84,51 @@ class APManager:
         logger.test(f"WireMQ listening for HTTP messages on port "
                     f"{self._serviceactivator_config['http_port']}")
 
-    def _convert_to_camel_case(self, input_dict):
-        """Parses through a dictionary and converts keys with spaces to
-        camelCase.
-        """
-        if isinstance(input_dict, dict):
-            new_dict = {}
-            for key, value in input_dict.items():
-                new_key = ''.join(word.capitalize() if i > 0 else word.lower() for i, word in enumerate(key.split()))
-                new_dict[new_key] = self._convert_to_camel_case(value)
-            return new_dict
-        elif isinstance(input_dict, list):
-            return [self._convert_to_camel_case(item) for item in input_dict]
-        else:
-            return input_dict
+    def _parse_data(self, data):
+        config = self._monitoring_config
+        def convert_to_camel_case(name):
+            words = re.findall(r'\w+', name)
+            return words[0] + ''.join(word.capitalize() for word in words[1:])
 
-    def _prepare_payload_data(self, monitoring_data: Dict) -> Dict:
+        def convert_numeric(value):
+            try:
+                numeric_part = re.search(r'-?[\d.]+', value).group()
+                if '.' in numeric_part:
+                    return float(numeric_part)
+                else:
+                    return int(numeric_part)
+            except (ValueError, AttributeError):
+                return value
+
+        stations = []
+        current_station = None
+
+        for line in data.split('\n'):
+            if config['station_identifier'] in line:
+                if current_station:
+                    stations.append(current_station)
+                current_station = {'details': {}}
+                current_station['mac_address'] = line.split()[1]
+            elif current_station and config['delimiter'] in line:
+                key, value = map(str.strip, line.split(config['delimiter'], 1))
+                if key == config['mac_address_key']:
+                    current_station['mac_address'] = value
+                else:
+                    camel_case_key = convert_to_camel_case(key)
+                    current_station['details'][
+                        camel_case_key] = convert_numeric(value)
+
+        if current_station:
+            stations.append(current_station)
+
+        return stations
+
+    def _prepare_payload_data(self, station_data: Dict) -> Dict:
         """Prepares the payload ready to send to the aggregator.
 
         Parameters
         ----------
-        monitoring_data: Dict
+        station_data: Dict
             Monitoring data from the access point.
 
         Returns
@@ -109,7 +136,7 @@ class APManager:
         payload_data: Dict
             Payload to be attached to the outgoing message to the aggregator.
         """
-        payload_data = self._convert_to_camel_case(monitoring_data)
+        payload_data = station_data
         payload_data["timestamp"] = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
         payload_data["matricID"] = generate_matric_id()
         payload_data["Aptech"] = "lifi"
@@ -176,14 +203,19 @@ class APManager:
                 logger.error(f"unable to decode message: {e}")
                 return
 
-            # Supplement with mATRIC data
-            payload_data = self._prepare_payload_data(monitoring_data)
+            # Parse the monitoring data
+            stations = self._parse_data(monitoring_data)
 
-            # Prepare the message
-            message = self._construct_message(payload_data)
-            logger.test(f"Sending to aggregator: {json.dumps(message, indent=2)}")
-            # Forward the monitoring data to the aggregator
-            self._channel.send(message)
+            for station in stations:
+                # Supplement with mATRIC data
+                payload_data = self._prepare_payload_data(station)
+
+                # Prepare the message
+                message = self._construct_message(payload_data)
+                logger.test(f"Sending to aggregator: "
+                            f"{json.dumps(message, indent=2)}")
+                # Forward the monitoring data to the aggregator
+                self._channel.send(message)
 
     def _respond_monitoring_http(self, msg: Dict):
         """Responds to the access point with a HTTP Response.
