@@ -198,7 +198,7 @@ class APManager:
 
             # Extract the monitoring data
             try:
-                monitoring_data = json.loads(msg["payload"]["data"])
+                monitoring_data = msg["payload"]["data"]
             except json.decoder.JSONDecodeError as e:
                 logger.error(f"unable to decode message: {e}")
                 return

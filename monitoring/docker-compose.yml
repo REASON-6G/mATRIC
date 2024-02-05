@@ -59,7 +59,7 @@ services:
       context: .
       dockerfile: emulator-lifi/Dockerfile
     restart: unless-stopped
-    
+
   influxdb:
     image: influxdb:latest
 #    build:

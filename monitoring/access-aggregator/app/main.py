@@ -24,6 +24,9 @@ config_path = os.path.join(path, "config.json")
 with open(config_path, "r") as f:
     config = json.load(f)["in_channel_config"]
 
+client = InfluxDBClient(url=influxdb_url, token=token, org=org)
+write_api = client.write_api(write_options=WriteOptions(batch_size=1))
+
 def flatten_json(y):
     out = {}
 
@@ -44,8 +47,8 @@ def flatten_json(y):
 
 # TODo write a function that receives the msg, deconstructs it to understand what is the AP tech and then pushes to the appropriate bucket
 def write_to_influx(json_data):
-    client = InfluxDBClient(url=influxdb_url, token=token, org=org)
-    write_api = client.write_api(write_options=WriteOptions(batch_size=1))
+#    client = InfluxDBClient(url=influxdb_url, token=token, org=org)
+#    write_api = client.write_api(write_options=WriteOptions(batch_size=1))
 
     # Parse and flatten the JSON data
     if isinstance(json_data, dict):
@@ -60,7 +63,7 @@ def write_to_influx(json_data):
     if aptech and aptech in bucket_mapping:
         bucket = bucket_mapping[aptech]
         point = Point("measurement").tag("Aptech", aptech)
-        if aptech == "wifi":
+        if aptech == "wifi" or aptech == "lifi":
             mac_address = flat_data.get('payload_data_mac_address')
             point.tag("mac_address", mac_address)
         
