@@ -69,6 +69,7 @@ def write_to_influx(json_data):
             point = point.field(key, value)
 
         # Write the point to InfluxDB
+        logger.test(f"Writing to bucket: {bucket}")
         write_api.write(bucket=bucket, org=org, record=point)
         logger.test(f"Data written to bucket: {bucket}")
     else:
@@ -86,6 +87,6 @@ if __name__ == "__main__":
         for msg in msgs:
             logger.test(f"WireMQ Channel received {msg.get('message_id')} from"
                         f" {msg.get('sender_alias')}, payload = "
-                        f"{json.dumps(msg.get('payload'))[:50]}...")
+                        f"{json.dumps(msg.get('payload'))[:200]}...")
             write_to_influx(msg)
         time.sleep(0.05)

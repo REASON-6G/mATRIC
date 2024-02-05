@@ -182,7 +182,6 @@ class APManager:
 
         if current_station:
             stations.append(current_station)
-
         return stations
 
     def _handle_http_message(self, msg: Dict):
@@ -231,6 +230,7 @@ class APManager:
                 message = self._construct_message(payload_data)
 
                 # Forward the monitoring data to the aggregator
+                logger.test(json.dumps(message, indent=2))
                 self._channel.send(message)
 
     def _respond_monitoring_http(self, msg: Dict):

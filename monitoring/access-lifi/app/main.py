@@ -81,6 +81,21 @@ class APManager:
         logger.test(f"WireMQ listening for HTTP messages on port "
                     f"{self._serviceactivator_config['http_port']}")
 
+    def _convert_to_camel_case(self, input_dict):
+        """Parses through a dictionary and converts keys with spaces to
+        camelCase.
+        """
+        if isinstance(input_dict, dict):
+            new_dict = {}
+            for key, value in input_dict.items():
+                new_key = ''.join(word.capitalize() if i > 0 else word.lower() for i, word in enumerate(key.split()))
+                new_dict[new_key] = self._convert_to_camel_case(value)
+            return new_dict
+        elif isinstance(input_dict, list):
+            return [self._convert_to_camel_case(item) for item in input_dict]
+        else:
+            return input_dict
+
     def _prepare_payload_data(self, monitoring_data: Dict) -> Dict:
         """Prepares the payload ready to send to the aggregator.
 
@@ -94,7 +109,7 @@ class APManager:
         payload_data: Dict
             Payload to be attached to the outgoing message to the aggregator.
         """
-        payload_data = monitoring_data
+        payload_data = self._convert_to_camel_case(monitoring_data)
         payload_data["timestamp"] = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
         payload_data["matricID"] = generate_matric_id()
         payload_data["Aptech"] = "lifi"
@@ -166,7 +181,7 @@ class APManager:
 
             # Prepare the message
             message = self._construct_message(payload_data)
-
+            logger.test(f"Sending to aggregator: {json.dumps(message, indent=2)}")
             # Forward the monitoring data to the aggregator
             self._channel.send(message)
 
@@ -224,6 +239,7 @@ class APManager:
         for msg in msgs:
             logger.test(f"WireMQ Channel received {msg.get('message_id')} from"
                         f" {msg.get('sender_alias')}")
+            logger.test(json.dumps(msg, indent=2))
             if msg.get("tx_id") and msg.get("method") == "POST":
                 self._handle_http_message(msg)
 

@@ -46,19 +46,19 @@ services:
     build:
       context: .
       dockerfile: emulator-5g/Dockerfile
-    restart: always
+    restart: unless-stopped
 
   emulate-wifi:
     build:
       context: .
       dockerfile: emulator-wifi/Dockerfile
-    restart: always
+    restart: unless-stopped
 
   emulate-lifi:
     build:
       context: .
       dockerfile: emulator-lifi/Dockerfile
-    restart: always
+    restart: unless-stopped
     
   influxdb:
     image: influxdb:latest

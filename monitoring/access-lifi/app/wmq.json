@@ -7,7 +7,8 @@
     "port": 10003,
     "dest_host": "ap_aggregator",
     "dest_port": 10000,
-    "console_level": 21
+    "console_level": 21,
+    "buffer_size": 8192
   },
   "serviceactivator_config": {
     "type": "serviceactivator",
@@ -15,6 +16,7 @@
     "alias": "serviceactivator_lifi",
     "http_host": "0.0.0.0",
     "http_port": 8083,
+    "buffer_size": 8192,
     "services": {
       "monitoring": [
         "data"
