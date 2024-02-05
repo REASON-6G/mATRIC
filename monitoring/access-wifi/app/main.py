@@ -15,6 +15,7 @@ from wiremq.gateway.endpoints import endpointfactory
 from wiremq.gateway.messages import messagefactory
 
 logger = logging.getLogger("channel_wifi_logger")
+logger.setLevel(21)
 
 # Define the path to the JSON structure file and channel configuration file.
 path = Path(__file__).parent
@@ -147,7 +148,6 @@ class APManager:
             Computed dictionary containing monitoring data.
         """
         config = self._monitoring_config
-
         def convert_to_camel_case(name):
             words = re.findall(r'\w+', name)
             return words[0] + ''.join(word.capitalize() for word in words[1:])

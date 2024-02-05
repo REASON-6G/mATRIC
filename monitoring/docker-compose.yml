@@ -18,6 +18,8 @@ services:
     ports:
       - 10002:10002
       - 8082:8082
+    volumes:
+      - ./access-wifi/app:/wiremq/app
 
   access-lifi:
     build:
