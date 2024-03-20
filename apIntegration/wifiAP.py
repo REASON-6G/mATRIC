@@ -2,6 +2,7 @@
 # This script does the following:
 #   1. Dumps WiFi related data from the local machine.
 #   2. Sends dumped string to mATRIC (URL:PORT) every X seconds.
+#   This scripts runs on the wifi access point
 
 import subprocess
 import os
