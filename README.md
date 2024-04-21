@@ -19,8 +19,8 @@ mATRIC is comprised of 5 building blocks
 
 # Database Query Example
 
-# API Data Endpoint
-
 # API for Access Point Integration
+
+# API for Data Access
 
 # API for RAN Control
