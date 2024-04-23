@@ -36,7 +36,7 @@ docker compose -up build
 
 - emulate5g
 - emulatewifi
-- emylatelifi
+- emulatelifi
 - accessaggregator
 - access5G
 - accessWifi
