@@ -2,14 +2,14 @@
 mATRIC is multi-Access Technology Intelligent Controller
 
 # Description 
-This repository, containing mATRIC implementation platform, has been made open-source as part of the REASON project, which is Realising Enabling Architectures and Solutions for Open Networks.
-mATRIC is an intelligent RAN controller supporting multiple access technologies.
+This is mATRIC repository, containing mATRIC software implementation platform. It has been made open-source as part of the REASON project, which is Realising Enabling Architectures and Solutions for Open Networks.
+mATRIC is an intelligent RAN controller designed to support multiple access technologies.
 
 **The mATRIC platform supports the following capabilities:**
 
 - Real-time and near real-time scenarios.
 - Cellular and non-cellular access technologies – _5G, WiFi, LiFi_.
-- Monitoring and data analytics.
+- Monitoring, intelligence and data analytics.
 - Control and optimisation of RAN resources.
 - On-demand deployment.
 
