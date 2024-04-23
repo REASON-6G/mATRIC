@@ -1,6 +1,5 @@
 # mATRIC Documentation
-mATRIC
-multi-access technology intelligent controller
+mATRIC stands for multi-access technology intelligent controller
 
 # Description 
 This repository, containing mATRIC implementation platform, has been made open-source as part of the REASON project, which is Realising Enabling Architectures and Solutions for Open Networks.
