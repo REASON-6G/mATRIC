@@ -7,7 +7,11 @@ mATRIC is an intelligent RAN controller supporting multiple access technologies.
 
 **The mATRIC platform supports the following capabilities:**
 
-
+- Real-time and near real-time scenarios.
+- Cellular and non-cellular access technologies – 5G, WiFi, LiFi.
+- Monitoring and data analytics.
+- Control and optimisation of RAN resources.
+- On-demand deployment.
 
 
 # Architecture
