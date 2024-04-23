@@ -28,7 +28,7 @@ mATRIC is comprised of 5 building blocks
 
 # Deployment of matric
 
-docker compose build to build the key containers of Matric
+docker compose build to build the key containers of mATRIC
 
 Command to build mATRIC
 
