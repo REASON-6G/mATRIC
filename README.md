@@ -15,7 +15,7 @@ REASON is Realising Enabling Architectures and Solutions for Open Networks.
 
 # Architecture
 
-mATRIC is comprised of 5 building blocks
+mATRIC is comprised of 3 building blocks
 
 1. mATRIC Broker
    (Description)
