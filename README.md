@@ -11,7 +11,7 @@ REASON is Realising Enabling Architectures and Solutions for Open Networks.
 - Cellular and non-cellular access technologies – _5G, WiFi, LiFi_.
 - Monitoring, intelligence and data analytics.
 - Control and optimisation of RAN resources.
-- On-demand deployment.
+
 
 
 # Architecture
