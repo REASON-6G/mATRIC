@@ -13,16 +13,19 @@ REASON is Realising Enabling Architectures and Solutions for Open Networks.
 - Control and optimisation of RAN resources.
 
 
-
 # Architecture
 
 mATRIC is comprised of 5 building blocks
 
-1. BB1
-2. BB2
-3. BB3
-4. BB4
-5. BB5
+1. mATRIC Broker
+   (Description)
+
+2. mATRIC OPEN API
+   (Description)
+
+3. mATRIC mAT Manager
+   (Description)
+
  
 ![alt text](/matric.png)
 
