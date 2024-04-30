@@ -2,8 +2,8 @@
 mATRIC is multi-Access Technology Intelligent Controller
 
 # Description 
-This is mATRIC repository, containing mATRIC software implementation platform. It has been made open-source as part of the REASON project, which is Realising Enabling Architectures and Solutions for Open Networks.
-mATRIC is an intelligent RAN controller designed to support multiple access technologies.
+This repository host the mATRIC software implementation platform, an intelligent RAN controller developed under the REASON project to support multiple access technologies.
+REASON is Realising Enabling Architectures and Solutions for Open Networks.
 
 **The mATRIC platform supports the following capabilities:**
 
