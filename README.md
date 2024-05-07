@@ -21,7 +21,8 @@ The platform integrates with standard ORAN and 3GPP interfaces. The E2 and O1 in
 The building blocks are as follows: <br>
 
 1. **mATRIC Broker** <br>
-   (Description)
+   
+   
 
 2. mATRIC OPEN API
    (Description)
