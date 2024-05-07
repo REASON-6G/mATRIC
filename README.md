@@ -24,7 +24,7 @@ The building blocks are as follows: <br>
    The broker manages data integration in mATRIC. The broker components include AT Registry database, mATRIC database, and WireMQa monitoring dashboard.<br>
 - AT Registry Database: Collects and stores AT metrics.<br>
 - Timeseries Database: Manages time series data.<br>
-- WireMQ monitoring Dashboard: Display real-time monitoring and analytics.<br>
+- WireMQ monitoring Dashboard: Displays real-time monitoring and analytics.<br>
    
 
 2. mATRIC OPEN API
