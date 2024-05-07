@@ -20,7 +20,7 @@ This repository host the mATRIC software implementation platform, an intelligent
 The platform integrates with standard ORAN and 3GPP interfaces. The E2 and O1 interfaces expose the mATRIC platform, allowing it to access technology metrics and RAN nodes. <br>
 The building blocks are as follows: <br>
 
-1. **Broker** <br>
+1. **mATRIC Broker** <br>
    
    
 
