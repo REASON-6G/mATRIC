@@ -33,8 +33,8 @@ The mATRIC APIs serve as interfaces between the platform, Access Technology appl
 - Data collection request: receiving data streams and store them in a NoSQL database.
 - Service request: receiving customer service requests through the Orchestrator, complete with requirement definitions.
 
-3. **mATRIC mAT Manager**<br>
-   
+3. **mAT Manager**<br>
+   The multiple Access Technology Manager, manages the monitoring Applications 
    
 
  
