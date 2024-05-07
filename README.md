@@ -43,7 +43,7 @@ The multiple Access Technology Manager consist of monitoring Applications (mApps
  
 ![alt text](/matric.png)
 
-# Deployment of matric
+# Deployment of mATRIC
 
 docker compose build to build the key containers of mATRIC
 
