@@ -16,8 +16,8 @@ This repository host the mATRIC software implementation platform, an intelligent
 
 # Architecture
 
-**mATRIC platform consist of 3 building blocks.** <br>
-The platform integrates with standard ORAN and 3GPP interfaces. The E2 and O1 interfaces expose the mATRIC platform, allowing it to access technology metrics and RAN nodes. <br>
+**mATRIC platform consist of 3 key building blocks.** <br>
+The platform is compatible with standard ORAN and 3GPP interfaces. The E2 and O1 interfaces provide access to the mATRIC platform, enabling it to gather metrics and interact with RAN nodes. This functionality enables the integration of multiple access technologies within the platform. <br>
 The building blocks are as follows: <br>
 
 1. **mATRIC Broker** <br>
