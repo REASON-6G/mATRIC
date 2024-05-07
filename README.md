@@ -35,8 +35,8 @@ The mATRIC APIs serve as interfaces between the platform, Access Technology appl
 
 3. **mAT Manager**<br>
 The multiple Access Technology Manager consist of monitoring Applications (mApps) that manage xApps for each AT application. <br>
-- Expose monitored KPIs: Extracts data for exposure from different access technology
-- Profiling: Performs profiling functions 
+- Expose monitored KPIs: Extracts data for exposure from different access technology.
+- Profiling: Performs profiling functions.
  
    
 
