@@ -3,7 +3,7 @@
 multi-Access Technology Intelligent Controller
 
 # Basic overview 
-This repository host the mATRIC software implementation platform, an intelligent RAN controller developed under the REASON project to support multiple wireless access technologies.
+This repository host the mATRIC software implementation platform, an intelligent RAN controller developed under the [![Static Badge](https://img.shields.io/badge/REASON-project)](https://reason-open-networks.ac.uk/about/) project to support multiple wireless access technologies.
 
 
 **The mATRIC platform supports the following capabilities:**
