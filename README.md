@@ -58,7 +58,7 @@ docker compose -up build
 - access5G
 - accessWifi
 
-If you want to run a specific configuration of mATRIC you need to modify the docker-compose.yml file accordigly.
+If you want to run a specific configuration of mATRIC you need to modify the docker-compose.yml file accordingly.
 
 # InfluxDB Configuration
 
