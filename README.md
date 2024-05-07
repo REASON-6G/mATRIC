@@ -21,17 +21,17 @@ The platform is compatible with standard ORAN and 3GPP interfaces. The E2 and O1
 The building blocks are as follows: <br>
 
 1. **mATRIC Broker** <br>
-   The broker manages data integration in mATRIC. The broker components include AT Registry database, mATRIC database, and WireMQa monitoring dashboard.<br>
+The broker manages data integration in mATRIC. The broker components include AT Registry database, mATRIC database, and WireMQa monitoring dashboard.<br>
 - AT Registry Database: Collects and stores AT metrics.<br>
 - Timeseries Database: Manages time series data.<br>
 - WireMQ monitoring Dashboard: Displays real-time monitoring and analytics.<br>
    
 
 2. **OPEN API** <br>
-   The mATRIC APIs serve as interfaces between the platform, Access Technology applications and Orchestration applications. This process involves: <br>
-   - Onborading request: mATRIC receives request from relevant applications and store them in a NoSQL database creating a related profile.
-   - Data collection request:
-   - Service request:
+The mATRIC APIs serve as interfaces between the platform, Access Technology applications and Orchestration applications. This process involves: <br>
+- Onborading request: mATRIC receives request from relevant applications and store them in a NoSQL database creating a related profile.
+- Data collection request:
+- Service request:
 
 3. mATRIC mAT Manager
    (Description)
