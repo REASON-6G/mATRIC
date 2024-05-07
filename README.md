@@ -27,8 +27,11 @@ The building blocks are as follows: <br>
 - WireMQ monitoring Dashboard: Displays real-time monitoring and analytics.<br>
    
 
-2. mATRIC OPEN API
-   (Description)
+2. **OPEN API** <br>
+   The mATRIC APIs serve as interfaces between the platform, Access Technology applications and Orchestration applications. This process involves: <br>
+   - Onborading request: mATRIC receives request from relevant applications and store them in a NoSQL database creating a related profile.
+   - Data collection request:
+   - Service request:
 
 3. mATRIC mAT Manager
    (Description)
