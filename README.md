@@ -34,10 +34,10 @@ The mATRIC APIs serve as interfaces between the platform, Access Technology appl
 - Service request: receiving customer service requests through the Orchestrator, complete with requirement definitions.
 
 3. **mAT Manager**<br>
-The multiple Access Technology Manager consist of monitoring Applications (mApps) that manage different xApps for each Access Technology and Orchestrator services. <br>
-- Expose monitored KPIs:
-- Profiling:
-- AI/ML: 
+The multiple Access Technology Manager consist of monitoring Applications (mApps) that manage different xApps for each Access Technology application. <br>
+- Expose monitored KPIs: Extracts data for exposure from different access technology
+- Profiling: Performs profiling functions 
+ 
    
 
  
