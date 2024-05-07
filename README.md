@@ -31,7 +31,7 @@ The broker manages data integration in mATRIC. The broker components include AT 
 The mATRIC APIs serve as interfaces between the platform, Access Technology applications and Orchestration applications. This process involves: <br>
 - Onborading request: mATRIC APIs receive request from relevant applications and store them in a NoSQL database creating a related profile.
 - Data collection request: mATRIC APIs receive data streams and store them in a NoSQL database.
-- Service request:
+- Service request:mATRIC receives customer service requests through the Orchestrator, complete with requirement definitions.
 
 3. mATRIC mAT Manager
    (Description)
