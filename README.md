@@ -1,4 +1,5 @@
-# mATRIC Documentation
+![mATRIC update logo](https://github.com/hpn-bristol/mATRIC/assets/63154875/5692d351-818e-48c2-834d-5d735871329d)
+
 mATRIC is multi-Access Technology Intelligent Controller
 
 # Description 
