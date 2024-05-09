@@ -72,20 +72,8 @@ This will start all the services defined in your docker-compose.yml file. Below 
 -	accessWifi
 
 
-docker compose build to build the key containers of mATRIC
-
-Command to build mATRIC
-
-docker compose -up build
-
-- emulate5g
-- emulatewifi
-- emulatelifi
-- accessaggregator
-- access5G
-- accessWifi
-
-If you want to run a specific configuration of mATRIC you need to modify the docker-compose.yml file accordingly.
+**Customise configuration**
+If you want to run a specific configuration of mATRIC, you will need to modify the docker-compose.yml file accordingly. 
 
 # InfluxDB Configuration
 
