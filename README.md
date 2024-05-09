@@ -100,7 +100,7 @@ Here are steps to configure InfluxDB for use with the mATRIC platform. <br>
 	DOCKER_INFLUXDB_INIT_ADMIN_TOKEN= your-admin-token
 	INFLUXDB_DB=matricDB
 	INFLUXDB_USER=matricAdmin
-     ```
+      ```
 
 3.    **Initialize Database**
 Run the script to set up your InfluxDB database:
