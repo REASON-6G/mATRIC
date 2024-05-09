@@ -50,7 +50,7 @@ Follow these steps to build and run the key containers of mATRIC using Docker Co
 **Build the Containers** <br>
 To build the containers required for mATRIC, open a terminal and run the following command in the directory where your docker-compose.yml is located:
 
-![carbon_docker compose build](https://github.com/hpn-bristol/mATRIC/assets/63154875/1652ccd9-e5bf-4fd1-aca5-d4737081635c)
+
 
 
 docker compose build to build the key containers of mATRIC
