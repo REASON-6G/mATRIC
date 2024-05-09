@@ -86,7 +86,7 @@ Here are steps to configure InfluxDB for use with the mATRIC platform. <br>
    [matricconfig]
    url = http://localhost:9999
    org = "UoB"
-
+  ```
 
 # Access Point Integration
 
