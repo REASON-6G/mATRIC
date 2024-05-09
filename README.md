@@ -80,7 +80,7 @@ If you want to run a specific configuration of mATRIC, you will need to modify t
 Here are steps to configure InfluxDB for use with the mATRIC platform. <br>
 
 1.	**Configuration File Settings** <br>
-   Modify the `config/influxdb_config.yml` file to match your environment settings:
+   Modify the `config/influxdb_config.yml` file to match your deployment settings:
 
    ```yaml
    [matricconfig]
@@ -88,7 +88,15 @@ Here are steps to configure InfluxDB for use with the mATRIC platform. <br>
    org = "UoB"
   ```
 
-2.	**Initialize Database** <br>
+2.   **Environment variables**
+
+
+   
+4.
+5.
+6.
+7.
+8.	**Initialize Database** <br>
 Run the script to set up your InfluxDB database:
 
 
