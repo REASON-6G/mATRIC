@@ -48,8 +48,8 @@ The multiple Access Technology Manager consist of monitoring Applications (mApps
 Follow these steps to build and run the key containers of mATRIC using Docker Compose. <br>
 
 1.	Clone this repository.
-2.	Build and run the key containers of mATRIC using Docker Compose
-open a terminal and run the following command in the directory where your docker-compose.yml is located:
+2.	Build and run the key containers of mATRIC using Docker Compose.
+Open a terminal and run the following command in the directory where your docker-compose.yml is located:
 
   	 ``` Bash
 	docker-compose build
