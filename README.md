@@ -79,47 +79,6 @@ If you want to run a specific configuration of mATRIC, you will need to modify t
 
 Here are steps to configure InfluxDB for use with the mATRIC platform. <br>
 
-1.	Configuration file settings <br>
-Navigate to monitoring/influxdb/config.yml
-
-``` YAML 
-[matricconfig]
-url = http://localhost:9999
-token = ""XAyfr1nVMvW0eStmjIbJJzDIaC0rPt40wZiIlqy8yoauVp5V1mb_ZT1gLJX3ujrKJl64RZvsV4teq3iyw2UFfQ==""
-org = "UoB"
-
-```
-
-
-
-2.	Environment variables
-
-Set the environment variables in monitoring/dbconfig.env to configure the initial setup for InfluxDB: 
-
-``` env
-
-DOCKER_INFLUXDB_INIT_MODE=setup
-DOCKER_INFLUXDB_INIT_USERNAME=matricAdmin
-DOCKER_INFLUXDB_INIT_PASSWORD=your-password
-DOCKER_INFLUXDB_INIT_ORG=UoB
-DOCKER_INFLUXDB_INIT_BUCKET=DefaultBucket
-DOCKER_INFLUXDB_INIT_ADMIN_TOKEN= XAyfr1nVMvW0eStmjIbJJzDIaC0rPt40wZiIlqy8yoauVp5V1mb_ZT1gLJX3ujrKJl64RZvsV4teq3iyw2UFfQ…
-INFLUXDB_DB=matricDB
-INFLUXDB_USER=matricAdmin
-
-```
-
-
-3.	Docker Compose setup
-InfluxDB is cconfigured to run as Docker container.  Check the monitoring/docker-compose.yml for service configuration:
-
-	```YAML
-	influxdb:
-	  image: influxdb:latest
-	  env_file:
-	    - dbconfig.env
-	```
-
 
 
 # Access Point Integration
