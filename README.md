@@ -91,6 +91,26 @@ org = "UoB"
 ```
 
 
+
+2.	Environment variables
+
+Set the environment variables in monitoring/dbconfig.env to configure the initial setup for InfluxDB: 
+
+``` env
+
+DOCKER_INFLUXDB_INIT_MODE=setup
+DOCKER_INFLUXDB_INIT_USERNAME=matricAdmin
+DOCKER_INFLUXDB_INIT_PASSWORD=your-password
+DOCKER_INFLUXDB_INIT_ORG=UoB
+DOCKER_INFLUXDB_INIT_BUCKET=DefaultBucket
+DOCKER_INFLUXDB_INIT_ADMIN_TOKEN= XAyfr1nVMvW0eStmjIbJJzDIaC0rPt40wZiIlqy8yoauVp5V1mb_ZT1gLJX3ujrKJl64RZvsV4teq3iyw2UFfQ…
+INFLUXDB_DB=matricDB
+INFLUXDB_USER=matricAdmin
+
+```
+
+
+
 # Access Point Integration
 
 # Database Query Example
