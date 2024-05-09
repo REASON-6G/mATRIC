@@ -47,10 +47,27 @@ The multiple Access Technology Manager consist of monitoring Applications (mApps
 
 Follow these steps to build and run the key containers of mATRIC using Docker Compose. <br>
 
-**Build the Containers** <br>
-To build the containers required for mATRIC, open a terminal and run the following command in the directory where your docker-compose.yml is located:
+1.	Clone this repository
+2.	Build and run the key containers of mATRIC using Docker Compose
+open a terminal and run the following command in the directory where your docker-compose.yml is located:
 
+   ``` Bash
+	docker-compose build
+	```
+This command builds all the containers specified in your docker-compose.yml file.
 
+3.	Start the containers by using the following command:
+   ``` Bash
+	docker-compose up
+   ```
+This will start all the services defined in your docker-compose.yml file. Below is a list of the key services that will be initiated:
+
+-	emulate5g
+-	emulatewifi
+-	emulatelifi
+-	accessaggregator
+-	access5G
+-	accessWifi
 
 
 docker compose build to build the key containers of mATRIC
