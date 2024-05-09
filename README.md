@@ -89,7 +89,7 @@ Here are steps to configure InfluxDB for use with the mATRIC platform. <br>
   ```
 
 2.   **Environment Variables** <br>
-    Set the environment variables in `monitoring/dbconfig.env` to configure the initial setup for InfluxDB:
+    Set the environment variables in `monitoring/dbconfig.env` to configure the initial setup for InfluxDB: <br>
 
      ```env
 	DOCKER_INFLUXDB_INIT_MODE=setup
