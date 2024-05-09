@@ -88,7 +88,7 @@ Here are steps to configure InfluxDB for use with the mATRIC platform. <br>
    org = "UoB"
   ```
 
-2.   **Environment Variables**
+2.   **Environment Variables** <br>
     Set the environment variables in `monitoring/dbconfig.env` to configure the initial setup for InfluxDB:
 
      ```env
