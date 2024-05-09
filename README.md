@@ -79,7 +79,7 @@ If you want to run a specific configuration of mATRIC, you will need to modify t
 
 Here are steps to configure InfluxDB for use with the mATRIC platform. <br>
 
-1.	Configuration file settings
+1.	Configuration file settings <br>
 Navigate to monitoring/influxdb/config.yml
 
 ``` YAML 
