@@ -113,9 +113,9 @@ Run the script to set up your InfluxDB database: <br>
 4.	**Verify Configuration** <br>
 Confirm that InfluxDB is configured correctly. Run the following command to fetch a list of databases: <br>
 
-	```
- 	    influx -execute 'SHOW DATABASES'
-	```
+   ```
+   influx -execute 'SHOW DATABASES'
+   ```
 
 
 # Access Point Integration
