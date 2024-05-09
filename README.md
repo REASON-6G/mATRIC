@@ -56,6 +56,12 @@ open a terminal and run the following command in the directory where your docker
 	```
 This command builds all the containers specified in your docker-compose.yml file.
 
+3.	Start the containers by using the following command:
+   
+	``` Bash
+	docker-compose up
+	```
+This will start all the services defined in your docker-compose.yml file. Below is a list of the key services that will be initiated:
 
 
 -	emulate5g
