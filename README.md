@@ -51,16 +51,12 @@ Follow these steps to build and run the key containers of mATRIC using Docker Co
 2.	Build and run the key containers of mATRIC using Docker Compose
 open a terminal and run the following command in the directory where your docker-compose.yml is located:
 
-   ``` Bash
+  	 ``` Bash
 	docker-compose build
 	```
 This command builds all the containers specified in your docker-compose.yml file.
 
-3.	Start the containers by using the following command:
-   ``` Bash
-	docker-compose up
-   ```
-This will start all the services defined in your docker-compose.yml file. Below is a list of the key services that will be initiated:
+
 
 -	emulate5g
 -	emulatewifi
