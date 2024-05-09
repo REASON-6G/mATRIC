@@ -77,6 +77,20 @@ If you want to run a specific configuration of mATRIC, you will need to modify t
 
 # InfluxDB Configuration
 
+Here are steps to configure InfluxDB for use with the mATRIC platform. <br>
+
+1.	Configuration file settings
+Navigate to monitoring/influxdb/config.yml
+
+``` YAML 
+[matricconfig]
+url = http://localhost:9999
+token = ""XAyfr1nVMvW0eStmjIbJJzDIaC0rPt40wZiIlqy8yoauVp5V1mb_ZT1gLJX3ujrKJl64RZvsV4teq3iyw2UFfQ==""
+org = "UoB"
+
+```
+
+
 # Access Point Integration
 
 # Database Query Example
