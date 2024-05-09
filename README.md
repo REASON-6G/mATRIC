@@ -72,7 +72,7 @@ This will start all the services defined in your docker-compose.yml file. Below 
 -	accessWifi
 
 
-**Customise configuration**
+**Customise configuration** <br>
 If you want to run a specific configuration of mATRIC, you will need to modify the docker-compose.yml file accordingly. 
 
 # InfluxDB Configuration
