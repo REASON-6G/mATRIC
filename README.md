@@ -110,6 +110,17 @@ INFLUXDB_USER=matricAdmin
 ```
 
 
+3.	Docker Compose setup
+InfluxDB is cconfigured to run as Docker container.  Check the monitoring/docker-compose.yml for service configuration:
+
+	```YAML
+	influxdb:
+	  image: influxdb:latest
+	  env_file:
+	    - dbconfig.env
+	```
+
+
 
 # Access Point Integration
 
