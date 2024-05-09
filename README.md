@@ -51,7 +51,7 @@ Follow these steps to build and run the key containers of mATRIC using Docker Co
 2.	Build and run the key containers of mATRIC using Docker Compose.
 Open a terminal and run the following command in the directory where your docker-compose.yml is located:
 
-  	 ``` Bash
+  	``` Bash
 	docker-compose build
 	```
 This command builds all the containers specified in your docker-compose.yml file.
@@ -92,7 +92,6 @@ Here are steps to configure InfluxDB for use with the mATRIC platform. <br>
     Set the environment variables in `monitoring/dbconfig.env` to configure the initial setup for InfluxDB: <br>
 
     ``` env
-
 DOCKER_INFLUXDB_INIT_MODE=setup
 DOCKER_INFLUXDB_INIT_USERNAME=matricAdmin
 DOCKER_INFLUXDB_INIT_PASSWORD=your-password
@@ -101,7 +100,6 @@ DOCKER_INFLUXDB_INIT_BUCKET=DefaultBucket
 DOCKER_INFLUXDB_INIT_ADMIN_TOKEN= XAyfr1nVMvW0eStmjIbJJzDIaC0rPt40wZiIlqy8yoauVp5V1mb_ZT1gLJX3ujrKJl64RZvsV4teq3iyw2UFfQ…
 INFLUXDB_DB=matricDB
 INFLUXDB_USER=matricAdmin
-
 	```
 
 3.    **Initialize Database**
@@ -110,10 +108,9 @@ Run the script to set up your InfluxDB database:
 
 	```
 ./scripts/init_db.sh
-
 	```
 
-3.	**Verify Configuration** <br>
+4.	**Verify Configuration** <br>
 Confirm that InfluxDB is configured correctly. Run the following command to fetch a list of databases:
 
 ```
