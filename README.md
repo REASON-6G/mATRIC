@@ -102,21 +102,20 @@ Here are steps to configure InfluxDB for use with the mATRIC platform. <br>
 	INFLUXDB_USER=matricAdmin
       ```
 
-3.    **Initialize Database**
-Run the script to set up your InfluxDB database:
+3.    **Initialize Database** <br>
+Run the script to set up your InfluxDB database: <br>
 
 
 	```
-./scripts/init_db.sh
+ 		./scripts/init_db.sh
 	```
 
 4.	**Verify Configuration** <br>
-Confirm that InfluxDB is configured correctly. Run the following command to fetch a list of databases:
+Confirm that InfluxDB is configured correctly. Run the following command to fetch a list of databases: <br>
 
-```
-influx -execute 'SHOW DATABASES'
-
-```
+	```
+ 	    influx -execute 'SHOW DATABASES'
+	```
 
 
 # Access Point Integration
