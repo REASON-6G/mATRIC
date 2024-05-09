@@ -92,7 +92,10 @@ Here are steps to configure InfluxDB for use with the mATRIC platform. <br>
 Run the script to set up your InfluxDB database
 
 
-```./scripts/init_db.sh```
+```
+./scripts/init_db.sh
+
+```
 
 # Access Point Integration
 
