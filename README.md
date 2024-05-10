@@ -133,3 +133,5 @@ This API endpoint provides mATRIC users to integrate their access points with th
 # API for RAN Control
 
 # How to contribute
+
+# Licence
