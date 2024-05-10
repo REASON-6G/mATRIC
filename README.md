@@ -135,3 +135,8 @@ This API endpoint provides mATRIC users to integrate their access points with th
 # How to contribute
 
 # Licence
+
+**MIT License**
+
+Copyright (c) 2024 SMART INTERNET LAB
+
