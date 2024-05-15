@@ -118,7 +118,7 @@ Confirm that InfluxDB is configured correctly. Run the following command to fetc
 
 # Access Point Integration
 
-This describes how to integrate the APs to the mATRIC platform.
+This describes how to integrate the APs to the mATRIC platform.<br>
 ...
 
 
