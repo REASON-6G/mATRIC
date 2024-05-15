@@ -109,7 +109,6 @@ Run the script to set up your InfluxDB database: <br>
    ./scripts/init_db.sh
   ```
 	
-
 4.	**Verify Configuration** <br>
 Confirm that InfluxDB is configured correctly. Run the following command to fetch a list of databases: <br>
 
@@ -117,8 +116,11 @@ Confirm that InfluxDB is configured correctly. Run the following command to fetc
    influx -execute 'SHOW DATABASES'
    ```
 
-
 # Access Point Integration
+
+This describes how to integrate the access points to the mATRIC platform.
+
+
 
 # Database Query Example
 
