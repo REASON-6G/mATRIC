@@ -1,4 +1,5 @@
-![Logo_updated](https://github.com/REASON-6G/mATRIC/assets/63154875/38f47c5e-dfdb-48da-9b3f-f6bbd2a91df5)
+
+![mATRIC logo](https://github.com/REASON-6G/mATRIC/assets/63154875/4548fa1b-e95b-4302-abee-f7fd05494230)
 
 mATRIC is multi-Access Technology 
 Intelligent Controller
