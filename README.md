@@ -1,5 +1,6 @@
 
-![Logo_updated](https://github.com/REASON-6G/mATRIC/assets/63154875/84b47223-21dc-4c86-8cb0-4f160bdd932b)
+![Logo_updated](https://github.com/REASON-6G/mATRIC/assets/63154875/def1eef1-4b0d-4c45-9184-f03f21b1f207)
+
 
 
 mATRIC is multi-Access Technology 
