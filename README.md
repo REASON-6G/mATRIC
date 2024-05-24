@@ -1,8 +1,9 @@
 ![mATRIC update logo](https://github.com/hpn-bristol/mATRIC/assets/63154875/5692d351-818e-48c2-834d-5d735871329d)
 
+![Logo_updated](https://github.com/REASON-6G/mATRIC/assets/63154875/5d6d0013-2dfe-4c6e-8456-854cb2899d91)
 
-
-mATRIC is multi-Access Technology Intelligent Controller
+mATRIC is multi-Access Technology 
+Intelligent Controller
 
 # Basic overview 
 This repository host the mATRIC software implementation platform, an intelligent RAN controller developed under the [![Static Badge](https://img.shields.io/badge/REASON-project)](https://reason-open-networks.ac.uk/about/) project to support multiple wireless access technologies.
