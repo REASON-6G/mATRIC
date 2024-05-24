@@ -1,4 +1,3 @@
-![mATRIC update logo](https://github.com/hpn-bristol/mATRIC/assets/63154875/5692d351-818e-48c2-834d-5d735871329d)
 
 ![Logo_updated](https://github.com/REASON-6G/mATRIC/assets/63154875/5d6d0013-2dfe-4c6e-8456-854cb2899d91)
 
