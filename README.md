@@ -1,6 +1,6 @@
 ![mATRIC update logo](https://github.com/hpn-bristol/mATRIC/assets/63154875/5692d351-818e-48c2-834d-5d735871329d)
 
-https://uob-my.sharepoint.com/:i:/r/personal/hf18402_bristol_ac_uk/Documents/Desktop/REASON%20project/GitHub/mATRIC%20logo/Logo_updated.png?csf=1&web=1&e=1L93XC
+![mATRIC update logo](https://uob-my.sharepoint.com/:i:/r/personal/hf18402_bristol_ac_uk/Documents/Desktop/REASON%20project/GitHub/mATRIC%20logo/Logo_updated.png?csf=1&web=1&e=JPQY5n)
 
 mATRIC is multi-Access Technology Intelligent Controller
 
