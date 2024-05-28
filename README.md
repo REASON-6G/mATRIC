@@ -131,7 +131,14 @@ This describes how to integrate the APs to the mATRIC platform.<br>
 
 # API for Access Point Integration
 
-This API endpoint provides mATRIC users to integrate their access points with the platform. The below guidance will assist with steps for integrating one or many access points with mATRIC.
+This API endpoint provides mATRIC users to integrate their access points with the platform. The following APIs have been defined. <br>
+
+- Access Point Onboarding API
+- Native AI Data API
+- RAN reconfiguration API
+
+The below guidance will assist with steps for integrating one or many access points with mATRIC.
+
 
 # API for Data Access
 
