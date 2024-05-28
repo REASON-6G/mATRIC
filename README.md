@@ -1,4 +1,4 @@
-![mATRIC_logo_4](https://github.com/REASON-6G/mATRIC/assets/63154875/7b3b96aa-cecf-44b6-972b-1ea0866682ba)
+
 ![mATRIC_logo_5](https://github.com/REASON-6G/mATRIC/assets/63154875/2d3c0350-668f-44f7-a5bf-e9bdd90cb299)
 
 
