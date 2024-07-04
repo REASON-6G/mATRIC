@@ -1,0 +1,25 @@
+-- Create the table
+CREATE TABLE wifi_data (
+    SSID TEXT NOT NULL,
+    MACaddr TEXT NOT NULL,
+    Signal INTEGER NOT NULL,
+    HighSignal INTEGER NOT NULL,
+    RSSI INTEGER NOT NULL,
+    HighRSSI INTEGER NOT NULL,
+    Channel INTEGER NOT NULL,
+    LAT FLOAT NOT NULL,
+    LON FLOAT NOT NULL,
+    Authentication TEXT NOT NULL,
+    Encryption TEXT NOT NULL,
+    Manufacturer TEXT NOT NULL
+);
+
+-- Example of inserting a row into the table
+INSERT INTO wifi_data (
+    SSID, MACaddr, Signal, HighSignal, RSSI, HighRSSI, Channel, LAT, LON, Authentication, Encryption, Manufacturer
+) VALUES (
+    'dist_', '', 0, 0, 0, 0, 0, 0, 0, '', '', ''
+);
+
+-- To verify the data has been inserted
+SELECT * FROM wifi_data;
