@@ -131,13 +131,13 @@ The below guidance will assist with steps for integrating one or many access poi
 # mATRIC usage documentation
 
 # Access Point Onboarding API
-This API endpoint provides mATRIC users to integrate their access points with the platform. The following APIs have been defined. <br>
+Onboards Access Points automatically to mATRIC.
 
 # mATRIC Data API 
 This API endpoint provides third parties with access to AP monitoring datasets from mATRIC.
 
 # Access Point Configuration API
-Thsi API enables the reconfiguation of Access Points
+This API enables the reconfiguation of Access Points.
 
 # How to contribute
 
