@@ -121,6 +121,7 @@ Confirm that InfluxDB is configured correctly. Run the following command to fetc
 # Access Point Integration
 
 This describes how to integrate the APs to the mATRIC platform.<br>
+The below guidance will assist with steps for integrating one or many access points with mATRIC.<br>
 ...
 
 
@@ -129,20 +130,14 @@ This describes how to integrate the APs to the mATRIC platform.<br>
 
 # mATRIC usage documentation
 
-# API for Access Point Integration
-
+# Access Point Onboarding API
 This API endpoint provides mATRIC users to integrate their access points with the platform. The following APIs have been defined. <br>
 
-- Access Point Onboarding API
-- Native AI Data API
-- RAN reconfiguration API
+# mATRIC Data API 
+This API endpoint provides third parties with access to AP monitoring datasets from mATRIC.
 
-The below guidance will assist with steps for integrating one or many access points with mATRIC.
-
-
-# API for Data Access
-
-# API for RAN Control
+# Access Point Configuration API
+Thsi API enables the reconfiguation of Access Points
 
 # How to contribute
 
